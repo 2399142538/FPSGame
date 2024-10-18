@@ -65,6 +65,12 @@ namespace Unity.FPS.AI
 
         [Header("VFX当敌人死亡时，VFX预制件就会生成")]
         public GameObject DeathVfx;
+        
+        [Header("VFX有护盾时，护盾将会打开")]
+        public ParticleSystem ShieldBlue;
+        
+        [Header("VFX当敌人护盾破碎时，VFX预制件就会生成")]
+        public GameObject ShieldBadVfx;
 
         [Header("死亡视觉特效产生的时刻")]
         public Transform DeathVfxSpawnPoint;
@@ -75,7 +81,7 @@ namespace Unity.FPS.AI
         [Header("物体掉落的可能性")] [Range(0, 1)]
         public float DropRate = 1f;
 
-        [Header("调试显示")] [Header("表示路径到达范围的球体小控件的颜色")]
+        [Header("表示路径到达范围的球体小控件的颜色")]
         public Color PathReachingRangeColor = Color.yellow;
 
         [Header("代表攻击范围的球体小控件的颜色")]
@@ -144,6 +150,13 @@ namespace Unity.FPS.AI
             m_Health.OnDie += OnDie;
             m_Health.OnDamaged += OnDamaged;
 
+            m_Health.OnShieldDamaged += OnShieldDamaged;
+            m_Health.OnShieldDie += OnShieldDie;
+
+            if (m_Health.IsHasShield())
+            {
+                ShieldBlue.Play();
+            }
             // Find and initialize all weapons
             FindAndInitializeAllWeapons();
             var weapon = GetCurrentWeapon();
@@ -356,6 +369,19 @@ namespace Unity.FPS.AI
                 m_WasDamagedThisFrame = true;
             }
         }
+        void OnShieldDamaged(float damage, GameObject damageSource)
+        {
+            // test if the damage source is the player
+            if (damageSource && !damageSource.GetComponent<EnemyController>())
+            {
+                // play the 受伤 sound
+                
+                // todo 护盾受损播放护盾受损的声音
+                if (DamageTick && !m_WasDamagedThisFrame)
+                    AudioUtility.CreateSFX(DamageTick, transform.position, AudioUtility.AudioGroups.DamageTick, 0f);
+                //产生粒子
+            }
+        }
 
         void OnDie()
         {
@@ -375,6 +401,16 @@ namespace Unity.FPS.AI
             // this will call the OnDestroy function
             Destroy(gameObject, DeathDuration);
         }
+        void OnShieldDie()
+        {
+            // spawn a particle system when dying
+            ShieldBlue.Stop();
+            var vfx = Instantiate(ShieldBadVfx, DeathVfxSpawnPoint.position, Quaternion.identity);
+            Destroy(vfx, 5f);
+        }
+        
+        
+        
 
         void OnDrawGizmosSelected()
         {

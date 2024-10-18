@@ -3,7 +3,10 @@ using UnityEngine;
 
 namespace Unity.FPS.Gameplay
 {
-    // Debug script, teleports the player across the map for faster testing
+    // 调试脚本，在地图上传送玩家以进行更快的测试
+    /// <summary>
+    /// 复活点
+    /// </summary>
     public class TeleportPlayer : MonoBehaviour
     {
         public KeyCode ActivateKey = KeyCode.F12;

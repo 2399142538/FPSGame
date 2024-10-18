@@ -14,9 +14,20 @@ namespace Unity.FPS.Game
             // Subscribe to damage & death actions
             m_Health.OnDie += OnDie;
             m_Health.OnDamaged += OnDamaged;
+            m_Health.OnShieldDamaged += OnShieldDamaged;
+            m_Health.OnShieldDie += OnShieldDie;
         }
 
         void OnDamaged(float damage, GameObject damageSource)
+        {
+            // TODO: damage reaction损伤反应
+        }
+        /// <summary>
+        /// 护盾丢失反应
+        /// </summary>
+        /// <param name="damage"></param>
+        /// <param name="damageSource"></param>
+        void OnShieldDamaged(float damage, GameObject damageSource)
         {
             // TODO: damage reaction损伤反应
         }
@@ -25,6 +36,11 @@ namespace Unity.FPS.Game
         {
             // this will call the OnDestroy function
             Destroy(gameObject);
+        }
+        void OnShieldDie()
+        {
+            //护盾破碎效果
+            //Destroy(gameObject);
         }
     }
 }

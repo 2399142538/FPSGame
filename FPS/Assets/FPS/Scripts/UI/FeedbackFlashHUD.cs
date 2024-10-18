@@ -26,7 +26,7 @@ namespace Unity.FPS.UI
         public float DamageFlashMaxAlpha = 1f;
 
         [Header("严重健康关键小插曲的最大阿尔法值")]
-        public float CriticaHealthVignetteMaxAlpha = .8f;
+        public float CriticaHealthVignetteMaxAlpha = 0.8f;
 
         [Header("处于临界健康状态时，小插曲跳动的频率")]
         public float PulsatingVignetteFrequency = 4f;

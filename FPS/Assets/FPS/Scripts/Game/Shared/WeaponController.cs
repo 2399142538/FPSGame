@@ -377,7 +377,7 @@ namespace Unity.FPS.Game
                         TryBeginCharge();
                     }
 
-                    // Check if we released charge or if the weapon shoot autmatically when it's fully charged
+                    //检查我们是否释放了电荷，或者武器在充满电后是否自动射击
                     if (inputUp || (AutomaticReleaseOnCharged && CurrentCharge >= 1f))
                     {
                         return TryReleaseCharge();
@@ -437,6 +437,9 @@ namespace Unity.FPS.Game
             return false;
         }
 
+        /// <summary>
+        /// 手柄射击
+        /// </summary>
         void HandleShoot()
         {
             int bulletsPerShotFinal = ShootType == WeaponShootType.Charge

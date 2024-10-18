@@ -6,28 +6,72 @@ namespace Unity.FPS.Game
     public class Health : MonoBehaviour
     {
         [Header("最大健康值")] public float MaxHealth = 10f;
-
+        [Header("最大护盾值")] public float MaxShield = 10f;
+        
         [Header("关键健康小插曲开始出现的健康比率")]
         public float CriticalHealthRatio = 0.3f;
-
+        /// <summary>
+        /// 护盾受伤回调
+        /// </summary>
+        public UnityAction<float, GameObject> OnShieldDamaged;
+        /// <summary>
+        /// 护盾被打破回调
+        /// </summary>
+        public UnityAction OnShieldDie;
+        
         public UnityAction<float, GameObject> OnDamaged;
         public UnityAction<float> OnHealed;
+        
         public UnityAction OnDie;
 
+        /// <summary>
+        /// 当前血量
+        /// </summary>
         public float CurrentHealth { get; set; }
+        /// <summary>
+        /// 当前护盾
+        /// </summary>
+        public float CurrentShield { get; set; }
+        /// <summary>
+        /// 是否无敌
+        /// </summary>
         public bool Invincible { get; set; }
+        //是否可以拾取体力
         public bool CanPickup() => CurrentHealth < MaxHealth;
 
+        /// <summary>
+        /// 获得比例
+        /// </summary>
+        /// <returns></returns>
+        public float GetShieldRatio() => CurrentShield / MaxShield;
+        /// <summary>
+        /// 获得比例
+        /// </summary>
+        /// <returns></returns>
         public float GetRatio() => CurrentHealth / MaxHealth;
+        /// <summary>
+        /// 快死亡效果
+        /// </summary>
+        /// <returns></returns>
         public bool IsCritical() => GetRatio() <= CriticalHealthRatio;
+        /// <summary>
+        /// 是否拥有护盾
+        /// </summary>
+        /// <returns></returns>
+        public bool IsHasShield() => MaxShield>0;
 
         bool m_IsDead;
 
         void Start()
         {
             CurrentHealth = MaxHealth;
+            CurrentShield = MaxShield;
         }
 
+        /// <summary>
+        /// 治愈逻辑
+        /// </summary>
+        /// <param name="healAmount"></param>
         public void Heal(float healAmount)
         {
             float healthBefore = CurrentHealth;
@@ -42,25 +86,63 @@ namespace Unity.FPS.Game
             }
         }
 
+        /// <summary>
+        /// 造成伤害
+        /// </summary>
+        /// <param name="damage"></param>
+        /// <param name="damageSource"></param>
         public void TakeDamage(float damage, GameObject damageSource)
         {
             if (Invincible)
                 return;
 
-            float healthBefore = CurrentHealth;
-            CurrentHealth -= damage;
-            CurrentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
-
-            // call OnDamage action
-            float trueDamageAmount = healthBefore - CurrentHealth;
-            if (trueDamageAmount > 0f)
+            float ShieldBefore = CurrentShield;
+            if (ShieldBefore>0)
             {
-                OnDamaged?.Invoke(trueDamageAmount, damageSource);
-            }
+                CurrentShield -= damage;
+                //护盾没破
+                if (CurrentShield>0)
+                {
+                    CurrentShield = Mathf.Clamp(CurrentShield, 0f, MaxHealth);
+                    // call OnDamage action
+                    float trueDamageAmount = ShieldBefore - CurrentShield;
+                    if (trueDamageAmount > 0f)
+                    {
+                        OnShieldDamaged?.Invoke(trueDamageAmount, damageSource);
+                    }
+                }
+                else
+                {
+                    
+                    float ShieldBefore2 = CurrentShield;
+                    CurrentShield = 0;
+                    OnShieldDie?.Invoke();
+                    TakeDamage(ShieldBefore2,damageSource);
+                }
 
-            HandleDeath();
+
+            }
+            else
+            {
+                float healthBefore = CurrentHealth;
+                CurrentHealth -= damage;
+                CurrentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
+
+                // call OnDamage action
+                float trueDamageAmount = healthBefore - CurrentHealth;
+                if (trueDamageAmount > 0f)
+                {
+                    OnDamaged?.Invoke(trueDamageAmount, damageSource);
+                }
+
+                HandleDeath();
+            }
+       
         }
 
+        /// <summary>
+        /// 死亡
+        /// </summary>
         public void Kill()
         {
             CurrentHealth = 0f;
@@ -71,6 +153,9 @@ namespace Unity.FPS.Game
             HandleDeath();
         }
 
+        /// <summary>
+        /// 死亡
+        /// </summary>
         void HandleDeath()
         {
             if (m_IsDead)

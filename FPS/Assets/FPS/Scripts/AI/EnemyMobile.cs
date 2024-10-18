@@ -80,7 +80,7 @@ namespace Unity.FPS.AI
             switch (AiState)
             {
                 case AIState.Follow:
-                    // Transition to attack when there is a line of sight to the target
+                    //当目标有视线时，过渡到攻击
                     if (m_EnemyController.IsSeeingTarget && m_EnemyController.IsTargetInAttackRange)
                     {
                         AiState = AIState.Attack;
@@ -89,7 +89,7 @@ namespace Unity.FPS.AI
 
                     break;
                 case AIState.Attack:
-                    // Transition to follow when no longer a target in attack range
+                    //当不再是攻击范围内的目标时，进行转换
                     if (!m_EnemyController.IsTargetInAttackRange)
                     {
                         AiState = AIState.Follow;

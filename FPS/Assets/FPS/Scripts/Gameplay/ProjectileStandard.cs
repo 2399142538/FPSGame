@@ -6,53 +6,53 @@ namespace Unity.FPS.Gameplay
 {
     public class ProjectileStandard : ProjectileBase
     {
-        [Header("General")] [Header("Radius of this projectile's collision detection")]
+        [Header("General")] [Header("该弹丸碰撞检测的半径")]
         public float Radius = 0.01f;
 
-        [Header("Transform representing the root of the projectile (used for accurate collision detection)")]
+        [Header("表示射弹根的变换（用于精确碰撞检测）")]
         public Transform Root;
 
-        [Header("Transform representing the tip of the projectile (used for accurate collision detection)")]
+        [Header("表示弹丸尖端的变换（用于精确碰撞检测）")]
         public Transform Tip;
 
-        [Header("LifeTime of the projectile")]
+        [Header("射弹寿命")]
         public float MaxLifeTime = 5f;
 
-        [Header("VFX prefab to spawn upon impact")]
+        [Header("VFX预制件可在撞击后生成")]
         public GameObject ImpactVfx;
 
-        [Header("LifeTime of the VFX before being destroyed")]
+        [Header("VFX在被销毁前的使用寿命")]
         public float ImpactVfxLifetime = 5f;
 
-        [Header("Offset along the hit normal where the VFX will be spawned")]
+        [Header("沿生成视觉特效的命中法线偏移")]
         public float ImpactVfxSpawnOffset = 0.1f;
 
-        [Header("Clip to play on impact")] 
+        [Header("冲击时播放的剪辑")] 
         public AudioClip ImpactSfxClip;
 
-        [Header("Layers this projectile can collide with")]
+        [Header("此投射物可能碰撞的层")]
         public LayerMask HittableLayers = -1;
 
-        [Header("Movement")] [Header("Speed of the projectile")]
+        [Header("运动")] [Header("弹丸速度")]
         public float Speed = 20f;
 
-        [Header("Downward acceleration from gravity")]
+        [Header("重力向下加速度")]
         public float GravityDownAcceleration = 0f;
 
         [Header(
-            "Distance over which the projectile will correct its course to fit the intended trajectory (used to drift projectiles towards center of screen in First Person view). At values under 0, there is no correction")]
+            "投射物将校正其航向以适应预期轨迹的距离（用于将投射物向第一人称视图中的屏幕中心漂移）。当值小于0时，没有校正")]
         public float TrajectoryCorrectionDistance = -1;
 
-        [Header("Determines if the projectile inherits the velocity that the weapon's muzzle had when firing")]
+        [Header("确定弹丸是否继承了武器发射时枪口的速度")]
         public bool InheritWeaponVelocity = false;
 
-        [Header("Damage")] [Header("Damage of the projectile")]
+        [Header("Damage")] [Header("弹丸损伤")]
         public float Damage = 40f;
 
-        [Header("Area of damage. Keep empty if you don<t want area damage")]
+        [Header("损坏区域。如果你不想造成区域损坏，请保持空白")]
         public DamageArea AreaOfDamage;
 
-        [Header("Debug")] [Header("Color of the projectile radius debug view")]
+        [Header("Debug")] [Header("弹丸半径调试视图的颜色")]
         public Color RadiusColor = Color.cyan * 0.2f;
 
         ProjectileBase m_ProjectileBase;
