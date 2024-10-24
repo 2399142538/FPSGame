@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Unity.FPS.Game
@@ -24,6 +25,15 @@ namespace Unity.FPS.Game
         
         public UnityAction OnDie;
 
+        [Header("受伤后几秒内不攻击 开始恢复数据")]
+        public float ShieldIntervalTime=5;
+        
+        [Header("开始恢复后一次恢复间隔")]
+        public float ShieldRecovery=3;
+        
+        [Header(" 开始恢复后一次恢复多少")]
+        public float ShieldRecoveryCount=3;
+        
         /// <summary>
         /// 当前血量
         /// </summary>
@@ -59,10 +69,15 @@ namespace Unity.FPS.Game
         /// </summary>
         /// <returns></returns>
         public bool IsHasShield() => MaxShield>0;
+        /// <summary>
+        /// 是否拥有护盾
+        /// </summary>
+        /// <returns></returns>
+        public bool BreakingTheShield=false;
 
         bool m_IsDead;
 
-        void Start()
+        public void Init()
         {
             CurrentHealth = MaxHealth;
             CurrentShield = MaxShield;
@@ -86,6 +101,37 @@ namespace Unity.FPS.Game
             }
         }
 
+
+        private void Update()
+        {
+            RecoveryShield();
+        }
+
+        private DateTime DamageTime = DateTime.MaxValue;
+        private DateTime RecoveryTime = DateTime.MinValue;
+/// <summary>
+/// 恢复护盾
+/// </summary>
+        void RecoveryShield()
+        {
+            if (BreakingTheShield|| CurrentShield>=MaxShield-0.01f)
+            {
+                return;
+            }
+
+            if ((DateTime.Now - DamageTime).TotalSeconds > ShieldIntervalTime)
+            {
+                if ((DateTime.Now - RecoveryTime).TotalSeconds > ShieldRecovery)
+                {
+                    RecoveryTime = DateTime.Now;
+                    CurrentShield += ShieldRecoveryCount;
+                }
+  
+            }
+            
+
+        }
+        
         /// <summary>
         /// 造成伤害
         /// </summary>
@@ -103,11 +149,14 @@ namespace Unity.FPS.Game
                 //护盾没破
                 if (CurrentShield>0)
                 {
+                    DamageTime=DateTime.Now;
+                    RecoveryTime=DateTime.Now;
                     CurrentShield = Mathf.Clamp(CurrentShield, 0f, MaxHealth);
                     // call OnDamage action
                     float trueDamageAmount = ShieldBefore - CurrentShield;
                     if (trueDamageAmount > 0f)
                     {
+                        
                         OnShieldDamaged?.Invoke(trueDamageAmount, damageSource);
                     }
                 }
@@ -117,6 +166,7 @@ namespace Unity.FPS.Game
                     float ShieldBefore2 = CurrentShield;
                     CurrentShield = 0;
                     OnShieldDie?.Invoke();
+                    BreakingTheShield = true;
                     TakeDamage(ShieldBefore2,damageSource);
                 }
 

@@ -1,4 +1,5 @@
 ﻿using Unity.FPS.Game;
+using Unity.FPS;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -174,7 +175,10 @@ namespace Unity.FPS.Gameplay
             DebugUtility.HandleErrorIfNullGetComponent<Actor, PlayerCharacterController>(m_Actor, this, gameObject);
 
             m_Controller.enableOverlapRecovery = true;
-
+            m_Health.MaxHealth = GameData.instance.GetPlayerMaxData(1);
+            m_Health.MaxShield = GameData.instance.GetPlayerMaxData(2);
+            m_Health.ShieldRecoveryCount = GameData.instance.GetPlayerMaxData(3);
+            m_Health.Init();
             m_Health.OnDie += OnDie;
 
             // force the crouch state to false when starting

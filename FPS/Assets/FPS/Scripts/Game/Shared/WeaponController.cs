@@ -28,6 +28,8 @@ namespace Unity.FPS.Game
     [RequireComponent(typeof(AudioSource))]
     public class WeaponController : MonoBehaviour
     {
+         [Header("武器类型")]
+        public GunType GunTypeType;
         [Header("Information")] [Header("将在该武器的UI中显示的名称")]
         public string WeaponName;
 
@@ -47,7 +49,7 @@ namespace Unity.FPS.Game
         [Header("武器尖端，射弹射击的地方")]
         public Transform WeaponMuzzle;
 
-        [Header("拍摄参数")] [Header("武器的类型会影响它的射击方式")]
+        [Header("武器参数")] [Header("武器的类型会影响它的射击方式")]
         public WeaponShootType ShootType;
 
         [Header("射弹预制件")] public ProjectileBase ProjectilePrefab;
@@ -85,8 +87,6 @@ namespace Unity.FPS.Game
         [Range(0.0f, 5.0f)] public float ShellCasingEjectionForce = 2.0f;
         [Header("重用前可以生成的最大shell数")]
         [Range(1, 30)] public int ShellPoolSize = 1;
-        [Header("每秒重新装填的弹药量")]
-        public float AmmoReloadRate = 1f;
 
         [Header("开始重新装弹前最后一次射击后的延迟")]
         public float AmmoReloadDelay = 2f;
@@ -98,7 +98,10 @@ namespace Unity.FPS.Game
         [Header("达到最大电荷时触发射击")]
         public bool AutomaticReleaseOnCharged;
 
-        [Header("达到最大充电时间")]
+        //没两秒重装1颗
+        [Header("每秒重新装填的弹药量")]
+        public float AmmoReloadRate = 1f;
+        [Header("重装一次需要的时间")]
         public float MaxChargeDuration = 2f;
 
         [Header("开始充电时使用的初始弹药")]
@@ -249,6 +252,8 @@ namespace Unity.FPS.Game
 
         void UpdateAmmo()
         {
+            MaxAmmo = (int)GameData.instance.GetDJC(GunTypeType);
+            AmmoReloadRate = GameData.instance.GetDEYRS(GunTypeType);
             if (AutomaticReload && m_LastTimeShot + AmmoReloadDelay < Time.time && m_CurrentAmmo < MaxAmmo && !IsCharging)
             {
                 // reloads weapon over time

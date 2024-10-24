@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using Unity.FPS.Game;
+using Unity.FPS.Gameplay;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
 namespace Unity.FPS.AI
 {
+    
+    
     [RequireComponent(typeof(Health), typeof(Actor), typeof(NavMeshAgent))]
     public class EnemyController : MonoBehaviour
     {
@@ -21,7 +24,7 @@ namespace Unity.FPS.AI
                 MaterialIndex = index;
             }
         }
-
+        
         [Header("Parameters")]
         [Header("Y高度，敌人将自动被杀死（如果它从水平面上掉下来）")]
         public float SelfDestructYHeight = -20f;
@@ -35,7 +38,8 @@ namespace Unity.FPS.AI
         [Header("死后延迟，游戏对象被销毁（以允许动画）")]
         public float DeathDuration = 0f;
 
-
+        [Header("敌人类型")]
+        public EnemyType EnemyType; 
         [Header("武器参数允许为该敌人更换武器")]
         public bool SwapToNextWeapon = false;
 
@@ -136,7 +140,21 @@ namespace Unity.FPS.AI
 
             m_Health = GetComponent<Health>();
             DebugUtility.HandleErrorIfNullGetComponent<Health, EnemyController>(m_Health, this, gameObject);
-
+            switch (EnemyType)
+            {
+                case EnemyType.Turret:
+                    m_Health.MaxHealth = GameData.instance.GetEnemy1MaxData(1);
+                    m_Health.MaxShield = GameData.instance.GetEnemy1MaxData(2);
+                    m_Health.ShieldRecoveryCount = GameData.instance.GetEnemy1MaxData(3);
+                    break;
+                case EnemyType.Monile:
+                    m_Health.MaxHealth = GameData.instance.GetEnemy2MaxData(1);
+                    m_Health.MaxShield = GameData.instance.GetEnemy2MaxData(2);
+                    m_Health.ShieldRecoveryCount = GameData.instance.GetEnemy2MaxData(3);
+                    break;
+            }
+            
+            m_Health.Init();
             m_Actor = GetComponent<Actor>();
             DebugUtility.HandleErrorIfNullGetComponent<Actor, EnemyController>(m_Actor, this, gameObject);
 

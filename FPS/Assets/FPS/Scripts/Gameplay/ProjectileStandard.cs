@@ -6,6 +6,9 @@ namespace Unity.FPS.Gameplay
 {
     public class ProjectileStandard : ProjectileBase
     {
+        [Header("子弹类型")]
+        public GunType GunTypeType;
+        
         [Header("General")] [Header("该弹丸碰撞检测的半径")]
         public float Radius = 0.01f;
 
@@ -115,6 +118,7 @@ namespace Unity.FPS.Gameplay
                 {
                     if (IsHitValid(hit))
                     {
+                     
                         OnHit(hit.point, hit.normal, hit.collider);
                     }
                 }
@@ -235,6 +239,7 @@ namespace Unity.FPS.Gameplay
                 Damageable damageable = collider.GetComponent<Damageable>();
                 if (damageable)
                 {
+                    Damage= GameData.instance.GetATK(GunTypeType);
                     damageable.InflictDamage(Damage, false, m_ProjectileBase.Owner);
                 }
             }

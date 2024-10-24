@@ -112,6 +112,7 @@ MonoBehaviour:
   PathReachingRadius: 2
   OrientationSpeed: 10
   DeathDuration: 0
+  EnemyType: 1
   SwapToNextWeapon: 0
   DelayAfterWeaponSwap: 0
   EyeColorMaterial: {fileID: 2100000, guid: e6fdfd4e017234d43ac116abee8fa90a, type: 2}
@@ -204,6 +205,10 @@ MonoBehaviour:
   MaxHealth: 100
   MaxShield: 10
   CriticalHealthRatio: 0.3
+  ShieldIntervalTime: 5
+  ShieldRecovery: 3
+  ShieldRecoveryCount: 3
+  BreakingTheShield: 0
 --- !u!114 &3464315327790461765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,6 +937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad90ba0b1477764da373f5ec01a8cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GunTypeType: 4
   WeaponName: 
   WeaponIcon: {fileID: 0}
   CrosshairDataDefault:
@@ -960,10 +966,10 @@ MonoBehaviour:
   EjectionPort: {fileID: 0}
   ShellCasingEjectionForce: 2
   ShellPoolSize: 1
-  AmmoReloadRate: 0.5
   AmmoReloadDelay: 0.5
   MaxAmmo: 100
   AutomaticReleaseOnCharged: 0
+  AmmoReloadRate: 0.5
   MaxChargeDuration: 2
   AmmoUsedOnStartCharge: 1
   AmmoUsageRateWhileCharging: 2

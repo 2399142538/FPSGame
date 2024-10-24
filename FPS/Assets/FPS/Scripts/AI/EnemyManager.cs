@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unity.FPS.Game;
 using UnityEngine;
 
@@ -33,6 +34,12 @@ namespace Unity.FPS.AI
 
             // removes the enemy from the list, so that we can keep track of how many are left on the map
             Enemies.Remove(enemyKilled);
+        }
+
+        
+        private void Update()
+        {
+            
         }
     }
 }

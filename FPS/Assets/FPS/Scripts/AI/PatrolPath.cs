@@ -18,6 +18,10 @@ namespace Unity.FPS.AI
                 enemy.PatrolPath = this;
             }
         }
+        public void Addenemy(EnemyController e)
+        {
+            e.PatrolPath = this;
+        }
 
         public float GetDistanceToNode(Vector3 origin, int destinationNodeIndex)
         {
