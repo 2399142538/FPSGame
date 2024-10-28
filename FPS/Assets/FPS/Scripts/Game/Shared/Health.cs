@@ -33,15 +33,16 @@ namespace Unity.FPS.Game
         
         [Header(" 开始恢复后一次恢复多少")]
         public float ShieldRecoveryCount=3;
-        
+
         /// <summary>
         /// 当前血量
         /// </summary>
-        public float CurrentHealth { get; set; }
+        public float CurrentHealth;
+
         /// <summary>
         /// 当前护盾
         /// </summary>
-        public float CurrentShield { get; set; }
+        public float CurrentShield;
         /// <summary>
         /// 是否无敌
         /// </summary>

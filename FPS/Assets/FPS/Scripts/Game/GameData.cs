@@ -70,8 +70,8 @@ namespace Unity.FPS.Game
          200, //[1]默认血量DHP
          200, //[2]默认护盾DHPSd
          3, //[3]默认护盾恢复速度DHPSdRS
-         1, //[4]默认能量DEY
-         1, //[5]每秒重新装填的弹药量DEYRS
+         0, //[4]默认增伤
+         1, //[5]增加从枪口子弹发射次数ShootCount
       };
       
       /// <summary>
@@ -83,8 +83,8 @@ namespace Unity.FPS.Game
          0, //[1]默认血量DHP
          0, //[2]默认护盾DHPSd
          0, //[3]默认护盾恢复速度DHPSdRS
-         0, //[4]默认能量DEY
-         0, //[5]每秒重新装填的弹药量DEYRS
+         0, //[4]增伤ZS
+         0, //[5]增加从枪口子弹发射次数
       };
 
       /// <summary>
@@ -92,12 +92,20 @@ namespace Unity.FPS.Game
       /// [1]默认血量DHP
       /// [2]默认护盾DHPSd
       /// [3]默认护盾恢复速度DHPSdRS
-      /// [4]默认能量DEY
-      /// [5]每秒重新装填的弹药量DEYRS
+      /// 
+      /// [5]增加从枪口子弹发射次数
       /// </summary>
       /// <param name="index"></param>
       /// <returns></returns>
-      public float GetPlayerMaxData(int index) => PlayerDefData[index] + PlayerData[index] * PlayerDefData[index];
+      public float GetPlayerMaxData(int index)
+      {
+         switch (index)
+         {
+            case 5:
+               return PlayerDefData[index] + PlayerData[index];
+         }
+         return PlayerDefData[index] + PlayerData[index] * PlayerDefData[index];
+      }
 
 
       //枪支属性
@@ -105,7 +113,7 @@ namespace Unity.FPS.Game
       //突击枪
       public List<float> Gun1DefData = new List<float>
       {
-         100, //[0]ATK攻击力
+         10, //[0]ATK攻击力
          100,//[1]默认能量DEY
          16, //[2]每秒重新装填的弹药量DEYRS
          16, //[3]弹夹里子弹数量
@@ -246,13 +254,13 @@ namespace Unity.FPS.Game
                return 0;
                break;
             case GunType.ChongFeng :
-               return Gun1DefData[0] + Gun1DefData[0] * Gun1Data[0];
+               return Gun1DefData[0] + Gun1DefData[0] * (Gun1Data[0]+PlayerData[4]);
                break;
             case GunType.SanDan :
-               return Gun2DefData[0] + Gun2DefData[0] * Gun2Data[0];
+               return Gun2DefData[0] + Gun2DefData[0] * (Gun2Data[0]+PlayerData[4]);
                break;
             case GunType.PaoQiang :
-               return Gun3DefData[0] + Gun3DefData[0] * Gun3Data[0];
+               return Gun3DefData[0] + Gun3DefData[0] * (Gun3Data[0]+PlayerData[4]);
                break;
             case GunType.EnemyX :
                return Enemy2DefData[4] + Enemy2DefData[4] * Enemy2Data[4];
@@ -304,22 +312,24 @@ namespace Unity.FPS.Game
                return 0;
                break;
             case GunType.ChongFeng :
-               return Gun1DefData[3] + Gun1Data[3];
+               return Gun1DefData[3] +  Gun1Data[3]*Gun1DefData[3];
                break;
             case GunType.SanDan :
-               return Gun2DefData[3] + Gun2Data[3];
+               return Gun2DefData[3] +  Gun2Data[3]*Gun2DefData[3];
                break;
             case GunType.PaoQiang :
-               return Gun3DefData[3] + Gun3Data[3];
+               return Gun3DefData[3] +  Gun3Data[3]*Gun3DefData[3];
                break;
             case GunType.EnemyX :
-               return Enemy2DefData[6] +Enemy2Data[6];
+               return Enemy2DefData[6] +Enemy2Data[6]*Enemy2DefData[6];
             case GunType.EnemyT :
-               return Enemy1DefData[6] + Enemy1Data[6];
+               return Enemy1DefData[6] + Enemy1Data[6]*Enemy1DefData[6];
             default:
                return 0;
          }
       }
+      
+
       
    }
 }
