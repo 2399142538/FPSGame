@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using Unity.FPS.Game;
 using UnityEngine;
 
@@ -241,6 +242,7 @@ namespace Unity.FPS.Gameplay
                 {
                     Damage= GameData.instance.GetATK(GunTypeType);
                     damageable.InflictDamage(Damage, false, m_ProjectileBase.Owner);
+                    AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_100);
                 }
             }
 

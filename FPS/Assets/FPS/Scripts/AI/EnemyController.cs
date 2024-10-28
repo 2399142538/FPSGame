@@ -94,6 +94,9 @@ namespace Unity.FPS.AI
         [Header("表示检测范围的球形小控件的颜色")]
         public Color DetectionRangeColor = Color.blue;
 
+        [Header("Movement")] [Header("落地时的最大移动速度系数（非短跑时）")]
+        public float MaxSpeedCoefficient = 1;
+        
         public UnityAction onAttack;
         public UnityAction onDetectedTarget;
         public UnityAction onLostTarget;
@@ -195,14 +198,9 @@ namespace Unity.FPS.AI
             DebugUtility.HandleWarningIfDuplicateObjects<DetectionModule, EnemyController>(detectionModules.Length,
                 this, gameObject);
             // Override navmesh agent data
-            if (navigationModules.Length > 0)
-            {
-                m_NavigationModule = navigationModules[0];
-                NavMeshAgent.speed = m_NavigationModule.MoveSpeed;
-                NavMeshAgent.angularSpeed = m_NavigationModule.AngularSpeed;
-                NavMeshAgent.acceleration = m_NavigationModule.Acceleration;
-            }
 
+            NavMeshAgent.speed = GameData.instance.GetEnemy1MaxData(0)*MaxSpeedCoefficient;
+            
             foreach (var renderer in GetComponentsInChildren<Renderer>(true))
             {
                 for (int i = 0; i < renderer.sharedMaterials.Length; i++)

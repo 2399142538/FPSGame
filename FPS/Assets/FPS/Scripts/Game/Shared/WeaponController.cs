@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -91,6 +92,9 @@ namespace Unity.FPS.Game
         [Header("开始重新装弹前最后一次射击后的延迟")]
         public float AmmoReloadDelay = 2f;
 
+        [Header("一次开枪射出n个子弹的延迟时间")]
+        public int AmmoReloadDelay1 = 80;
+        
         [Header("枪中弹药的最大数量")]
         public int MaxAmmo = 8;
 
@@ -287,7 +291,8 @@ namespace Unity.FPS.Game
                 {
                     float chargeLeft = 1f - CurrentCharge;
 
-                    // Calculate how much charge ratio to add this frame
+                    
+                    //计算添加此框架的收费比例
                     float chargeAdded = 0f;
                     if (MaxChargeDuration <= 0f)
                     {
@@ -300,14 +305,14 @@ namespace Unity.FPS.Game
 
                     chargeAdded = Mathf.Clamp(chargeAdded, 0f, chargeLeft);
 
-                    // See if we can actually add this charge
+                    // 看看我们是否真的可以增加这笔费用
                     float ammoThisChargeWouldRequire = chargeAdded * AmmoUsageRateWhileCharging;
                     if (ammoThisChargeWouldRequire <= m_CurrentAmmo)
                     {
-                        // Use ammo based on charge added
+                        //根据添加的电荷使用弹药
                         UseAmmo(ammoThisChargeWouldRequire);
 
-                        // set current charge ratio
+                        // 设定电流充电比
                         CurrentCharge = Mathf.Clamp01(CurrentCharge + chargeAdded);
                     }
                 }
@@ -455,9 +460,20 @@ namespace Unity.FPS.Game
             for (int i = 0; i < bulletsPerShotFinal; i++)
             {
                 Vector3 shotDirection = GetShotDirectionWithinSpread(WeaponMuzzle);
-                ProjectileBase newProjectile = Instantiate(ProjectilePrefab, WeaponMuzzle.position,
-                    Quaternion.LookRotation(shotDirection));
-                newProjectile.Shoot(this);
+                switch (GunTypeType)
+                {
+                    case GunType.ChongFeng:
+                    case GunType.SanDan:
+                    case GunType.PaoQiang:
+                        int count=Mathf.RoundToInt(GameData.instance.GetPlayerMaxData(5)) ;
+                        AsyncShoot(count,shotDirection);
+                        break;
+                    default:
+                        ProjectileBase newProjectile = Instantiate(ProjectilePrefab, WeaponMuzzle.position,
+                            Quaternion.LookRotation(shotDirection));
+                        newProjectile.Shoot(this);
+                        break;
+                }
             }
 
             // muzzle flash
@@ -498,6 +514,18 @@ namespace Unity.FPS.Game
             OnShootProcessed?.Invoke();
         }
 
+
+        public async void AsyncShoot(int count, Vector3 shotDirection )
+        {
+            for (int i = 0; i < count; i++)
+            {
+                ProjectileBase newProjectile = Instantiate(ProjectilePrefab, WeaponMuzzle.position,
+                    Quaternion.LookRotation(shotDirection));
+                newProjectile.Shoot(this);
+                await Task.Delay(AmmoReloadDelay1);
+            }
+
+        }
         public Vector3 GetShotDirectionWithinSpread(Transform shootTransform)
         {
             float spreadAngleRatio = BulletSpreadAngle / 180f;

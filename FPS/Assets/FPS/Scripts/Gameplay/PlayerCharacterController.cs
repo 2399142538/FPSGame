@@ -33,6 +33,9 @@ namespace Unity.FPS.Gameplay
 
         [Header("Movement")] [Header("落地时的最大移动速度（非短跑时）")]
         public float MaxSpeedOnGround = 10f;
+        
+        [Header("Movement")] [Header("落地时的最大移动速度系数（非短跑时）")]
+        public float MaxSpeedCoefficient = 1;
 
         [Header(
             "落地时动作的锐度，低值会使玩家缓慢加速和减速，高值则相反")]
@@ -335,7 +338,7 @@ namespace Unity.FPS.Gameplay
                 if (IsGrounded)
                 {
                     // calculate the desired velocity from inputs, max speed, and current slope
-                    Vector3 targetVelocity = worldspaceMoveInput * MaxSpeedOnGround * speedModifier;
+                    Vector3 targetVelocity = worldspaceMoveInput * MaxSpeedOnGround*MaxSpeedCoefficient * speedModifier;
                     // reduce speed if crouching by crouch speed ratio
                     if (IsCrouching==PlayerStanceStage.Crouching) targetVelocity *= MaxSpeedCrouchedRatio;
                     targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) *
