@@ -94,8 +94,10 @@ namespace Unity.FPS.AI
         [Header("表示检测范围的球形小控件的颜色")]
         public Color DetectionRangeColor = Color.blue;
 
-        [Header("Movement")] [Header("落地时的最大移动速度系数（非短跑时）")]
+        [Header("Movement")] [Header("落地时的最大移动速度系数减速（非短跑时）")]
         public float MaxSpeedCoefficient = 1;
+        [Header("Movement")] [Header("落地时的最大移动速度系数加速（非短跑时）")]
+        public float MaxSpeedCoefficient2 = 1;
         
         public UnityAction onAttack;
         public UnityAction onDetectedTarget;
@@ -199,8 +201,9 @@ namespace Unity.FPS.AI
                 this, gameObject);
             // Override navmesh agent data
 
-            NavMeshAgent.speed = GameData.instance.GetEnemy1MaxData(0)*MaxSpeedCoefficient;
-            
+  
+            NavMeshAgent.speed = GameData.instance.GetEnemy2MaxData(0);
+
             foreach (var renderer in GetComponentsInChildren<Renderer>(true))
             {
                 for (int i = 0; i < renderer.sharedMaterials.Length; i++)
@@ -229,10 +232,22 @@ namespace Unity.FPS.AI
             }
         }
 
+        private float a=float.MinValue;
+
         void Update()
         {
             EnsureIsWithinLevelBounds();
+            float v = GameData.instance.GetEnemy2MaxData(0) * MaxSpeedCoefficient * MaxSpeedCoefficient2;
+       
+            if (a != Mathf.Round(v*100)/100)
+            {
+                a = Mathf.Round(v * 100) / 100;
+                NavMeshAgent.speed = a;
 
+            }
+   
+
+            
             DetectionModule.HandleTargetDetection(m_Actor, m_SelfColliders);
 
             Color currentColor = OnHitBodyGradient.Evaluate((Time.time - m_LastTimeDamaged) / FlashOnHitDuration);

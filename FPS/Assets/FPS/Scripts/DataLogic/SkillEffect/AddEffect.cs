@@ -14,24 +14,47 @@ namespace Unity.FPS.Gameplay
         /// <summary>
         /// 示例效果-50% -100% +50% +100%
         /// </summary>
-        public static SlowDownEffectData Slow_50 = new SlowDownEffectData() { IsSlowDown=false,TimeStart=0.1f, TimeEnable=2,TimeEnd=0.2f,AddSpeed=-0.5f};
-        public static SlowDownEffectData Slow_100 = new SlowDownEffectData() { IsSlowDown=false,TimeStart=2f, TimeEnable=2,TimeEnd=2f,AddSpeed=-1f};
+        /// 硬直
+        public static SlowDownEffectData Slow_50 = new SlowDownEffectData() { IsSlowDown=false,TimeStart=0.1f, TimeEnable=0.2f,TimeEnd=0.2f,AddSpeed=-0.8f};
+        public static SlowDownEffectData Slow_501 = new SlowDownEffectData() { IsSlowDown=false,TimeStart=0.1f, TimeEnable=2f,TimeEnd=0.2f,AddSpeed=-0.5f};
+        
+        public static SlowDownEffectData Slow_100 = new SlowDownEffectData() { IsSlowDown=false,TimeStart=2f, TimeEnable=5,TimeEnd=2f,AddSpeed=-1f};
+        public static SlowDownEffectData Slow_1000 = new SlowDownEffectData() { IsSlowDown=false,TimeStart=2f, TimeEnable=5,TimeEnd=2f,AddSpeed=-10f};
+        public static SlowDownEffectData Slow_80 = new SlowDownEffectData() { IsSlowDown=false,TimeStart=2f, TimeEnable=5,TimeEnd=2f,AddSpeed=-0.8f};
         public static SlowDownEffectData Add_50 = new SlowDownEffectData() { IsSlowDown=true,TimeStart=0.1f, TimeEnable=2,TimeEnd=0.2f,AddSpeed=0.5f};
         public static SlowDownEffectData Add_100 = new SlowDownEffectData() { IsSlowDown=true,TimeStart=2f, TimeEnable=2,TimeEnd=2f,AddSpeed=1f};
-        
-        public void SlowDownEffect(GameObject tr,SlowDownEffectData e)
+        public static SlowDownEffectData Add_1000 = new SlowDownEffectData() { IsSlowDown=true,TimeStart=2f, TimeEnable=2,TimeEnd=2f,AddSpeed=10f};
+
+        public void SlowDownEffect(GameObject tr, SlowDownEffectData e)
         {
-            SlowDownEffect a = tr.GetComponent<SlowDownEffect>();
-            if (a!=null)
+            bool isPlayer=tr.GetComponent<PlayerCharacterController>() != null ;
+
+            SlowDownEffect a;
+            if (isPlayer)
             {
-                a.AddData(e);
+                 a = tr.GetComponent<SlowDownEffect>();
+                 if (a == null)
+                 {
+                     a = tr.AddComponent<SlowDownEffect>();
+             
+                 }
+                 a.IsPlayer = true;
+                 a.AddData(e);
             }
             else
             {
-                a= tr.AddComponent<SlowDownEffect>();
-                a.AddData(e);
+                 a = tr.transform.parent.GetComponent<SlowDownEffect>();
+
+                 if (a == null)
+                 {
+                     a = tr.transform.parent.gameObject.AddComponent<SlowDownEffect>();
+                 }
+                 a.IsPlayer = false;
+                 a.AddData(e);
             }
+  
+         
         }
-        
+
     }
 }

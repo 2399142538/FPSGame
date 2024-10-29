@@ -212,7 +212,7 @@ namespace Unity.FPS.Game
       /// </summary>
       public List<float> Enemy2DefData = new List<float>
       {
-         1, //[0]默认移速DMS
+         3.5f, //[0]默认移速DMS
          100, //[1]默认血量DHP
          100, //[2]默认护盾DHPSd
          3, //[3]默认护盾恢复速度DHPSdRS

@@ -242,7 +242,11 @@ namespace Unity.FPS.Gameplay
                 {
                     Damage= GameData.instance.GetATK(GunTypeType);
                     damageable.InflictDamage(Damage, false, m_ProjectileBase.Owner);
-                    AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_100);
+                    AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_50);
+                    if (GunTypeType==GunType.SanDan)
+                    {
+                        AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_501);
+                    }
                 }
             }
 
