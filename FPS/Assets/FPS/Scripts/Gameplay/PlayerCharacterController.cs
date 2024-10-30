@@ -181,9 +181,9 @@ namespace Unity.FPS.Gameplay
             DebugUtility.HandleErrorIfNullGetComponent<Actor, PlayerCharacterController>(m_Actor, this, gameObject);
 
             m_Controller.enableOverlapRecovery = true;
-            m_Health.MaxHealth = GameData.instance.GetPlayerMaxData(1);
-            m_Health.MaxShield = GameData.instance.GetPlayerMaxData(2);
-            m_Health.ShieldRecoveryCount = GameData.instance.GetPlayerMaxData(3);
+            m_Health.MaxHealth =Mathf.RoundToInt( GameData.instance.GetPlayerMaxData(1));
+            m_Health.MaxShield =Mathf.RoundToInt( GameData.instance.GetPlayerMaxData(2));
+            m_Health.ShieldRecoveryCount =Mathf.RoundToInt( GameData.instance.GetPlayerMaxData(3));
             m_Health.Init();
             m_Health.OnDie += OnDie;
 
@@ -215,7 +215,7 @@ namespace Unity.FPS.Gameplay
                 if (RecievesFallDamage && fallSpeedRatio > 0f)
                 {
                     float dmgFromFall = Mathf.Lerp(FallDamageAtMinSpeed, FallDamageAtMaxSpeed, fallSpeedRatio);
-                    m_Health.TakeDamage(dmgFromFall, null);
+                    m_Health.TakeDamage(Mathf.RoundToInt(dmgFromFall), null);
 
                     // fall damage SFX
                     AudioSource.PlayOneShot(FallDamageSfx);
@@ -344,9 +344,6 @@ namespace Unity.FPS.Gameplay
                     Vector3 targetVelocity = worldspaceMoveInput * MaxSpeedOnGround*(MaxSpeedCoefficient)*(MaxSpeedCoefficient2) * speedModifier;
                     // reduce speed if crouching by crouch speed ratio
                                     
-                    Debug.LogError((MaxSpeedCoefficient)+" "+(MaxSpeedCoefficient2));
-                    Debug.LogError( worldspaceMoveInput * MaxSpeedOnGround*(MaxSpeedCoefficient)*(MaxSpeedCoefficient2));
-                    
                     if (IsCrouching==PlayerStanceStage.Crouching) targetVelocity *= MaxSpeedCrouchedRatio;
                     targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) *
                                      targetVelocity.magnitude;

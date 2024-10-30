@@ -35,6 +35,14 @@ namespace Unity.FPS.Game
                 /// //[5]增加从枪口子弹发射次数ShootCount
                 /// </summary>
                 PShootCount ,
+                /// <summary>
+                /// //[6]本枪枪口是否具有硬直
+                /// </summary>
+                PShootHardStraight ,
+                /// <summary>
+                /// //[7]本身是否免疫硬直
+                /// </summary>
+                PImmuneHardStraight ,
 
                 //冲锋枪1 CF
                 /// <summary>
@@ -68,6 +76,11 @@ namespace Unity.FPS.Game
                 /// 弹夹里子弹数量
                 /// </summary>
                 SDZDC,
+
+                /// <summary>
+                /// 散淡枪减速
+                /// </summary>
+                SDSlowDown,
 
 
                 //炮枪3 DP
@@ -162,9 +175,9 @@ namespace Unity.FPS.Game
                 
                 
                 public static List<AttributeRewards> PlayersRewards = new List<AttributeRewards>()
-                { AttributeRewards.PDMS, AttributeRewards.PDHP    , AttributeRewards.PDHPSd  , AttributeRewards.PDHPSdRS, AttributeRewards.PZS ,AttributeRewards.PShootCount ,AttributeRewards.PShootCount };
-                public static List<float> PlayersRewardsValue = new List<float>(){0.5f,0.5f,0.5f,0.5f,0.5f,1,1};
-                public static List<bool> PlayersRewardsBuy = new List<bool>(){false,false,false,false,false,false,false};
+                { AttributeRewards.PDMS, AttributeRewards.PDHP    , AttributeRewards.PDHPSd  , AttributeRewards.PDHPSdRS, AttributeRewards.PZS ,AttributeRewards.PShootCount ,AttributeRewards.PShootCount,AttributeRewards.PShootHardStraight,AttributeRewards.PImmuneHardStraight };
+                public static List<float> PlayersRewardsValue = new List<float>(){0.5f,0.5f,0.5f,0.5f,0.5f,1,1,1,1};
+                public static List<bool> PlayersRewardsBuy = new List<bool>(){false,false,false,false,false,false,false,false,false};
                 
                 public static List<AttributeRewards> Gun1Rewards = new List<AttributeRewards>()
                 { AttributeRewards.CFATK, AttributeRewards.CFDEYRS    , AttributeRewards.CFZDC, AttributeRewards.CFATK,AttributeRewards.CFZDC, AttributeRewards.CFATK,AttributeRewards.CFZDC};
@@ -172,9 +185,9 @@ namespace Unity.FPS.Game
                 public static List<bool> Gun1RewardsBuy = new List<bool>(){false,false,false,false,false,false,false};
                 
                 public static List<AttributeRewards> Gun2Rewards = new List<AttributeRewards>()
-                { AttributeRewards.SDATK, AttributeRewards.SDDEYRS    , AttributeRewards.SDZDC };
-                public static List<float> Gun2RewardsValue = new List<float>(){0.5f,0.5f,0.5f};
-                public static List<bool> Gun2RewardsBuy = new List<bool>(){false,false,false};
+                { AttributeRewards.SDATK, AttributeRewards.SDDEYRS    , AttributeRewards.SDZDC,AttributeRewards.SDSlowDown };
+                public static List<float> Gun2RewardsValue = new List<float>(){0.5f,0.5f,0.5f,1};
+                public static List<bool> Gun2RewardsBuy = new List<bool>(){false,false,false,false};
                 
                 public static List<AttributeRewards> Gun3Rewards = new List<AttributeRewards>()
                 { AttributeRewards.DPATK, AttributeRewards.DPDEYRS    , AttributeRewards.DPZDC };
@@ -268,12 +281,15 @@ namespace Unity.FPS.Game
                     [AttributeRewards.PDHPSdRS]="护盾恢复速度",
                     [AttributeRewards.PZS]="增伤",
                     [AttributeRewards.PShootCount]="增加枪口射出的子弹数量",
+                    [AttributeRewards.PShootHardStraight]=" 枪口具有硬直",
+                    [AttributeRewards.PImmuneHardStraight]="免疫硬直",
                     [AttributeRewards.CFATK]="冲锋枪攻击力",
                     [AttributeRewards.CFDEYRS]="冲锋枪每秒装填弹药量",
                     [AttributeRewards.CFZDC]="冲锋枪弹夹里子弹数量",
                     [AttributeRewards.SDATK]="散弹枪攻击力",
                     [AttributeRewards.SDDEYRS]="散弹枪2每秒装填弹药量",
                     [AttributeRewards.SDZDC]="散弹枪2弹夹里子弹数量",
+                    [AttributeRewards.SDSlowDown]="散淡枪减速效果",
                     [AttributeRewards.DPATK]="大炮攻击力",
                     [AttributeRewards.DPDEYRS]="大炮每秒装填弹药量",
                     [AttributeRewards.DPZDC]="大炮弹夹里子弹数量",
@@ -331,12 +347,15 @@ namespace Unity.FPS.Game
                                    case AttributeRewards.PDHPSdRS:     g.PlayerData[3] += Count;        break;               
                                    case AttributeRewards.PZS     :     g.PlayerData[4] += Count;        break;               
                                    case AttributeRewards.PShootCount     :     g.PlayerData[5] += Count;        break;               
+                                   case AttributeRewards.PShootHardStraight     :     g.PlayerData[6] += Count;        break;               
+                                   case AttributeRewards.PImmuneHardStraight     :     g.PlayerData[7] += Count;        break;               
                                    case AttributeRewards.CFATK       :     g.Gun1Data[0] += Count;           break;          
                                    case AttributeRewards.CFDEYRS     :     g.Gun1Data[2] += Count;          break;           
                                    case AttributeRewards.CFZDC       :     g.Gun1Data[3] += Count;        break;             
                                    case AttributeRewards.SDATK          :     g.Gun2Data[0] += Count;         break;         
                                    case AttributeRewards.SDDEYRS        :     g.Gun2Data[2] += Count;         break;         
                                    case AttributeRewards.SDZDC          :     g.Gun2Data[3] += Count;         break;         
+                                   case AttributeRewards.SDSlowDown          :     g.Gun2Data[4] += Count;         break;         
                                    case AttributeRewards.DPATK         :     g.Gun3Data[0] += Count;          break;         
                                    case AttributeRewards.DPDEYRS       :     g.Gun3Data[2] += Count;          break;         
                                    case AttributeRewards.DPZDC         :     g.Gun3Data[3] += Count;          break;         

@@ -76,6 +76,14 @@ public class SlowDownEffect : MonoBehaviour
     public bool IsPlayer = false;
 
     private List<SlowDownEffectData> SlowDownEffectDatas = new List<SlowDownEffectData>();
+    private PlayerCharacterController P;
+    private EnemyController E;
+    private void Awake()
+    {
+         P = gameObject.GetComponent<PlayerCharacterController>();
+         E = gameObject.GetComponent<EnemyController>();
+    }
+
     void Update()
     {
         UpdateSpeed();
@@ -83,14 +91,24 @@ public class SlowDownEffect : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (IsPlayer)
+        try
         {
-            gameObject.GetComponent<PlayerCharacterController>().MaxSpeedCoefficient=1;
+            if (IsPlayer)
+            {
+                P.MaxSpeedCoefficient=1;
+                P.MaxSpeedCoefficient2=1;
+            }
+            else
+            {
+                E.MaxSpeedCoefficient=1;
+                E.MaxSpeedCoefficient2=1;
+            }
         }
-        else
+        catch (Exception e)
         {
-            gameObject.GetComponent<EnemyController>().MaxSpeedCoefficient=1;
+            
         }
+
     }
 
     public void AddData(SlowDownEffectData e)
@@ -116,20 +134,21 @@ public class SlowDownEffect : MonoBehaviour
         {
             float speed=1;
             float addSpeed=1;
-            if (gameObject.GetComponent<PlayerCharacterController>()==null&&gameObject.GetComponent<EnemyController>()==null)
+    
+            if (P==null&&E==null)
             {
                 return;
                 
             }
             if (IsPlayer)
             {
-                speed = gameObject.GetComponent<PlayerCharacterController>().MaxSpeedCoefficient;
-                addSpeed = gameObject.GetComponent<PlayerCharacterController>().MaxSpeedCoefficient2;
+                speed = P.MaxSpeedCoefficient;
+                addSpeed = P.MaxSpeedCoefficient2;
             }
             else
             {
-                speed = gameObject.GetComponent<EnemyController>().MaxSpeedCoefficient;
-                addSpeed = gameObject.GetComponent<EnemyController>().MaxSpeedCoefficient2;
+                speed = E.MaxSpeedCoefficient;
+                addSpeed = E.MaxSpeedCoefficient2;
             }
             
  
@@ -202,13 +221,13 @@ public class SlowDownEffect : MonoBehaviour
             }
             if (IsPlayer)
             {
-                gameObject.GetComponent<PlayerCharacterController>().MaxSpeedCoefficient= Mathf.Round(speed * 100) / 100;
-                gameObject.GetComponent<PlayerCharacterController>().MaxSpeedCoefficient2=Mathf.Round(addSpeed * 100) / 100;
+                P.MaxSpeedCoefficient= Mathf.Round(speed * 100) / 100;
+                P.MaxSpeedCoefficient2=Mathf.Round(addSpeed * 100) / 100;
             }
             else
             {
-                gameObject.GetComponent<EnemyController>().MaxSpeedCoefficient= Mathf.Round(speed * 100) / 100;
-                gameObject.GetComponent<EnemyController>().MaxSpeedCoefficient2= Mathf.Round(addSpeed * 100) / 100;
+                E.MaxSpeedCoefficient= Mathf.Round(speed * 100) / 100;
+                E.MaxSpeedCoefficient2= Mathf.Round(addSpeed * 100) / 100;
             }
         }
         else

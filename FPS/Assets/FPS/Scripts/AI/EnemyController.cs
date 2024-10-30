@@ -148,14 +148,14 @@ namespace Unity.FPS.AI
             switch (EnemyType)
             {
                 case EnemyType.Turret:
-                    m_Health.MaxHealth = GameData.instance.GetEnemy1MaxData(1);
-                    m_Health.MaxShield = GameData.instance.GetEnemy1MaxData(2);
-                    m_Health.ShieldRecoveryCount = GameData.instance.GetEnemy1MaxData(3);
+                    m_Health.MaxHealth =Mathf.RoundToInt( GameData.instance.GetEnemy1MaxData(1));
+                    m_Health.MaxShield =Mathf.RoundToInt( GameData.instance.GetEnemy1MaxData(2));
+                    m_Health.ShieldRecoveryCount =Mathf.RoundToInt( GameData.instance.GetEnemy1MaxData(3));
                     break;
                 case EnemyType.Monile:
-                    m_Health.MaxHealth = GameData.instance.GetEnemy2MaxData(1);
-                    m_Health.MaxShield = GameData.instance.GetEnemy2MaxData(2);
-                    m_Health.ShieldRecoveryCount = GameData.instance.GetEnemy2MaxData(3);
+                    m_Health.MaxHealth =Mathf.RoundToInt( GameData.instance.GetEnemy2MaxData(1));
+                    m_Health.MaxShield =Mathf.RoundToInt( GameData.instance.GetEnemy2MaxData(2));
+                    m_Health.ShieldRecoveryCount =Mathf.RoundToInt( GameData.instance.GetEnemy2MaxData(3));
                     break;
             }
             

@@ -85,6 +85,8 @@ namespace Unity.FPS.Game
          0, //[3]默认护盾恢复速度DHPSdRS
          0, //[4]增伤ZS
          0, //[5]增加从枪口子弹发射次数
+         0, //[6]本枪枪口是否具有硬直
+         0, //[7]本身是否免疫硬直
       };
 
       /// <summary>
@@ -142,6 +144,7 @@ namespace Unity.FPS.Game
          0,//[1]默认能量DEY
          0, //[2]每秒重新装填的弹药量DEYRS
          0, //[3]弹夹里子弹数量
+         0, //[4]散淡枪是否具有减速效果，不为0具有
       };  
       //炮枪
       public List<float> Gun3DefData = new List<float>

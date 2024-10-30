@@ -1631,7 +1631,7 @@ PrefabInstance:
     - target: {fileID: 7671270577186476433, guid: a7fa348d53593bb42922672c6cf40651,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.337446
+      value: 2.832
       objectReference: {fileID: 0}
     - target: {fileID: 7671270577186476433, guid: a7fa348d53593bb42922672c6cf40651,
         type: 3}
@@ -2663,6 +2663,8 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  - 0
+  - 0
   Gun1DefData:
   - 10
   - 100
@@ -2679,6 +2681,7 @@ MonoBehaviour:
   - 1.1
   - 2
   Gun2Data:
+  - 0
   - 0
   - 0
   - 0

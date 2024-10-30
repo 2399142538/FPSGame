@@ -242,10 +242,34 @@ namespace Unity.FPS.Gameplay
                 {
                     Damage= GameData.instance.GetATK(GunTypeType);
                     damageable.InflictDamage(Damage, false, m_ProjectileBase.Owner);
-                    AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_50);
+                    
+
+                    switch (GunTypeType)
+                    {
+                        case GunType.ChongFeng:
+                        case GunType.SanDan:
+                        case GunType.PaoQiang:
+                            if (GameData.instance.PlayerData[6]>=0.1f)
+                            {
+                                AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_50);
+                            }
+                            break;
+                        case GunType.EnemyT:
+                        case GunType.EnemyX:
+                            if (GameData.instance.PlayerData[7]<=0.1f)
+                            {
+                                AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_50);
+                            }
+                            break;
+                    }
+                    
+          
                     if (GunTypeType==GunType.SanDan)
                     {
-                        AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_501);
+                        if (GameData.instance.Gun2Data[4] >= 0.01f)
+                        {
+                            AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_501);
+                        }
                     }
                 }
             }

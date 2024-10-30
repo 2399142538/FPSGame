@@ -6,7 +6,7 @@ namespace Unity.FPS.Gameplay
     public class HealthPickup : Pickup
     {
         [Header("Parameters")] [Header("拾取时要治愈的生命值")]
-        public float HealAmount;
+        public int HealAmount;
 
         protected override void OnPicked(PlayerCharacterController player)
         {

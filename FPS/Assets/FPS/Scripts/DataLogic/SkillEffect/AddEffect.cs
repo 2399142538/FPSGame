@@ -1,4 +1,5 @@
 using System;
+using Unity.FPS.AI;
 using UnityEngine;
 
 namespace Unity.FPS.Gameplay
@@ -43,14 +44,18 @@ namespace Unity.FPS.Gameplay
             }
             else
             {
-                 a = tr.transform.parent.GetComponent<SlowDownEffect>();
+                EnemyController b = tr.transform.parent.GetComponentInParent<EnemyController>();
+                if (b!=null)
+                {
+                    a = b.GetComponent<SlowDownEffect>();
+                    if (a == null)
+                    {
+                        a = tr.transform.parent.gameObject.AddComponent<SlowDownEffect>();
+                    }
+                    a.IsPlayer = false;
+                    a.AddData(e);
+                }
 
-                 if (a == null)
-                 {
-                     a = tr.transform.parent.gameObject.AddComponent<SlowDownEffect>();
-                 }
-                 a.IsPlayer = false;
-                 a.AddData(e);
             }
   
          

@@ -6,8 +6,8 @@ namespace Unity.FPS.Game
 {
     public class Health : MonoBehaviour
     {
-        [Header("最大健康值")] public float MaxHealth = 10f;
-        [Header("最大护盾值")] public float MaxShield = 10f;
+        [Header("最大健康值")] public int MaxHealth = 10;
+        [Header("最大护盾值")] public int MaxShield = 10;
         
         [Header("关键健康小插曲开始出现的健康比率")]
         public float CriticalHealthRatio = 0.3f;
@@ -32,17 +32,17 @@ namespace Unity.FPS.Game
         public float ShieldRecovery=3;
         
         [Header(" 开始恢复后一次恢复多少")]
-        public float ShieldRecoveryCount=3;
+        public int ShieldRecoveryCount=3;
 
         /// <summary>
         /// 当前血量
         /// </summary>
-        public float CurrentHealth;
+        public int CurrentHealth;
 
         /// <summary>
         /// 当前护盾
         /// </summary>
-        public float CurrentShield;
+        public int CurrentShield;
         /// <summary>
         /// 是否无敌
         /// </summary>
@@ -54,12 +54,12 @@ namespace Unity.FPS.Game
         /// 获得比例
         /// </summary>
         /// <returns></returns>
-        public float GetShieldRatio() => CurrentShield / MaxShield;
+        public float GetShieldRatio() => (float) CurrentShield / MaxShield;
         /// <summary>
         /// 获得比例
         /// </summary>
         /// <returns></returns>
-        public float GetRatio() => CurrentHealth / MaxHealth;
+        public float GetRatio() => (float)CurrentHealth / MaxHealth;
         /// <summary>
         /// 快死亡效果
         /// </summary>
@@ -88,11 +88,11 @@ namespace Unity.FPS.Game
         /// 治愈逻辑
         /// </summary>
         /// <param name="healAmount"></param>
-        public void Heal(float healAmount)
+        public void Heal(int healAmount)
         {
             float healthBefore = CurrentHealth;
             CurrentHealth += healAmount;
-            CurrentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
 
             // call OnHeal action
             float trueHealAmount = CurrentHealth - healthBefore;
@@ -138,7 +138,7 @@ namespace Unity.FPS.Game
         /// </summary>
         /// <param name="damage"></param>
         /// <param name="damageSource"></param>
-        public void TakeDamage(float damage, GameObject damageSource)
+        public void TakeDamage(int damage, GameObject damageSource)
         {
             if (Invincible)
                 return;
@@ -152,7 +152,7 @@ namespace Unity.FPS.Game
                 {
                     DamageTime=DateTime.Now;
                     RecoveryTime=DateTime.Now;
-                    CurrentShield = Mathf.Clamp(CurrentShield, 0f, MaxHealth);
+                    CurrentShield = Mathf.Clamp(CurrentShield, 0, MaxHealth);
                     // call OnDamage action
                     float trueDamageAmount = ShieldBefore - CurrentShield;
                     if (trueDamageAmount > 0f)
@@ -164,7 +164,7 @@ namespace Unity.FPS.Game
                 else
                 {
                     
-                    float ShieldBefore2 = CurrentShield;
+                    int ShieldBefore2 = CurrentShield;
                     CurrentShield = 0;
                     OnShieldDie?.Invoke();
                     BreakingTheShield = true;
@@ -177,7 +177,7 @@ namespace Unity.FPS.Game
             {
                 float healthBefore = CurrentHealth;
                 CurrentHealth -= damage;
-                CurrentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
+                CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
 
                 // call OnDamage action
                 float trueDamageAmount = healthBefore - CurrentHealth;
@@ -196,8 +196,7 @@ namespace Unity.FPS.Game
         /// </summary>
         public void Kill()
         {
-            CurrentHealth = 0f;
-
+            CurrentHealth = 0;
             // call OnDamage action
             OnDamaged?.Invoke(MaxHealth, null);
 
