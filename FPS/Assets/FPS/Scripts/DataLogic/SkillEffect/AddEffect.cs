@@ -1,5 +1,6 @@
 using System;
 using Unity.FPS.AI;
+using Unity.FPS.Game;
 using UnityEngine;
 
 namespace Unity.FPS.Gameplay
@@ -44,21 +45,91 @@ namespace Unity.FPS.Gameplay
             }
             else
             {
-                EnemyController b = tr.transform.parent.GetComponentInParent<EnemyController>();
+                EnemyController b = tr.GetComponentInParent<EnemyController>();
                 if (b!=null)
                 {
                     a = b.GetComponent<SlowDownEffect>();
                     if (a == null)
                     {
-                        a = tr.transform.parent.gameObject.AddComponent<SlowDownEffect>();
+                        a = b.gameObject.AddComponent<SlowDownEffect>();
                     }
                     a.IsPlayer = false;
                     a.AddData(e);
                 }
 
             }
-  
-         
+        }
+        
+        public static HpDownEffectData AddHP_1000 = new HpDownEffectData() { IsAdd=true,isUseSheild=true, TimeDuration=5,TimeInterval=2f,AddHp=20,Id=11111};
+        public static HpDownEffectData ReduceHP_1000 = new HpDownEffectData() { IsAdd=false,isUseSheild=true, TimeDuration=5,TimeInterval=2f,AddHp=20,Id=222};
+        
+        /// <summary>
+        /// 施加持续伤害效果
+        /// </summary>
+        /// <param name="tr"></param>
+        /// <param name="e"></param>
+        public void HpDownEffect(GameObject tr, HpDownEffectData e)
+        {
+            bool isPlayer=tr.GetComponent<PlayerCharacterController>() != null ;
+            AddBloodOrSheildEffect a;
+            if (isPlayer)
+            {
+                 a = tr.GetComponent<AddBloodOrSheildEffect>();
+                 if (a == null)
+                 {
+                     a = tr.AddComponent<AddBloodOrSheildEffect>();
+             
+                 }
+                 a.IsPlayer = true;
+                 a.AddData(e);
+            }
+            else
+            {
+                Health b = tr.GetComponentInParent<Health>();
+                if (b!=null)
+                {
+                    a = b.GetComponent<AddBloodOrSheildEffect>();
+                    if (a == null)
+                    {
+                        a = b.gameObject.AddComponent<AddBloodOrSheildEffect>();
+                    }
+                    a.IsPlayer = false;
+                    a.AddData(e);
+                }
+
+            }
+        }        
+        /// <summary>
+        /// 施加破盾效果
+        /// </summary>
+        /// <param name="tr"></param>
+        /// <param name="e"></param>
+        public void BreakingTheShieldEffect(GameObject tr)
+        {
+            bool isPlayer=tr.GetComponent<PlayerCharacterController>() != null ;
+            BreakingTheShieldEffect a;
+            if (isPlayer)
+            {
+                 a = tr.GetComponent<BreakingTheShieldEffect>();
+                 if (a == null)
+                 {
+                     a = tr.AddComponent<BreakingTheShieldEffect>();
+             
+                 }
+            }
+            else
+            {
+                Health b = tr.GetComponentInParent<Health>();
+                if (b!=null)
+                {
+                    a = b.GetComponent<BreakingTheShieldEffect>();
+                    if (a == null)
+                    {
+                        a = b.gameObject.AddComponent<BreakingTheShieldEffect>();
+                    }
+                }
+
+            }
         }
 
     }

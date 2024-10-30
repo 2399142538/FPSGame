@@ -157,7 +157,6 @@ namespace Unity.FPS.Game
                     float trueDamageAmount = ShieldBefore - CurrentShield;
                     if (trueDamageAmount > 0f)
                     {
-                        
                         OnShieldDamaged?.Invoke(trueDamageAmount, damageSource);
                     }
                 }

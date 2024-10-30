@@ -228,9 +228,13 @@ namespace Unity.FPS.Gameplay
         void OnHit(Vector3 point, Vector3 normal, Collider collider)
         {
             // damage
+            
+            
+            
             if (AreaOfDamage)
             {
                 // area damage
+                Damage= GameData.instance.GetATK(GunTypeType);
                 AreaOfDamage.InflictDamageInArea(Damage, point, HittableLayers, k_TriggerInteraction,
                     m_ProjectileBase.Owner);
             }
@@ -243,36 +247,47 @@ namespace Unity.FPS.Gameplay
                     Damage= GameData.instance.GetATK(GunTypeType);
                     damageable.InflictDamage(Damage, false, m_ProjectileBase.Owner);
                     
-
-                    switch (GunTypeType)
-                    {
-                        case GunType.ChongFeng:
-                        case GunType.SanDan:
-                        case GunType.PaoQiang:
-                            if (GameData.instance.PlayerData[6]>=0.1f)
-                            {
-                                AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_50);
-                            }
-                            break;
-                        case GunType.EnemyT:
-                        case GunType.EnemyX:
-                            if (GameData.instance.PlayerData[7]<=0.1f)
-                            {
-                                AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_50);
-                            }
-                            break;
-                    }
-                    
-          
-                    if (GunTypeType==GunType.SanDan)
-                    {
-                        if (GameData.instance.Gun2Data[4] >= 0.01f)
-                        {
-                            AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_501);
-                        }
-                    }
                 }
             }
+            
+            switch (GunTypeType)
+            {
+                case GunType.ChongFeng:
+                case GunType.SanDan:
+                case GunType.PaoQiang:
+                    if (GameData.instance.PlayerData[6]>=0.1f)
+                    {
+                        AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_50);
+                             
+                    }
+                    break;
+                case GunType.EnemyT:
+                case GunType.EnemyX:
+                    if (GameData.instance.PlayerData[7]<=0.1f)
+                    {
+                        AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_50);
+                    }
+                    break;
+            }
+                    
+          
+            if (GunTypeType==GunType.SanDan)
+            {
+                if (GameData.instance.Gun2Data[4] >= 0.01f)
+                {
+                    AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_501);
+                }
+            }
+
+            if (GunTypeType == GunType.PaoQiang)
+            {
+                AddEffect.instance.BreakingTheShieldEffect(collider.gameObject);
+            }
+            if (GunTypeType == GunType.EnemyT)
+            {
+                AddEffect.instance.BreakingTheShieldEffect(collider.gameObject);
+            }
+            
 
             // impact vfx
             if (ImpactVfx)
