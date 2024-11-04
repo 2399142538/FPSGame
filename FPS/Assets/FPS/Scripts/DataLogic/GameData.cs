@@ -46,8 +46,12 @@ namespace Unity.FPS.Game
       EnemyT
    }
 
+   public partial class GameData : MonoBehaviour
+   {
+      
+   }
 
-   public class GameData : MonoBehaviour
+   public partial class GameData : MonoBehaviour
    {
       public static GameData instance;
 
@@ -55,6 +59,7 @@ namespace Unity.FPS.Game
       {
          DontDestroyOnLoad(this);
          instance = this;
+         
       }
       
       [Header("攻速")] public float PlayerATS = 1;
@@ -149,7 +154,7 @@ namespace Unity.FPS.Game
       //炮枪
       public List<float> Gun3DefData = new List<float>
       {
-         40, //[0]ATK攻击力
+         100, //[0]ATK攻击力
          100,//[1]默认能量DEY
          1, //[2]每秒重新装填的弹药量DEYRS
          4, //[3]弹夹里子弹数量

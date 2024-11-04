@@ -7,7 +7,7 @@ using UnityEngine;
 
 
 
-public struct SlowDownEffectData
+public class SlowDownEffectData  :EffectData
 {
     /// <summary>
     /// //加速or减速 true 加速
@@ -57,70 +57,42 @@ public struct SlowDownEffectData
 /// <summary>
 /// 速度处理，
 /// </summary>
-public class SlowDownEffect : MonoBehaviour
+public class SlowDownEffect : EffectParent
 {
-    
-    public static int id = 0;
 
-    public static int GetId()
-    {
-        id += 1;
-        return id;
-    }
     // Start is called before the first frame update
     //区分玩家还是怪物
     //减速到终点的时间：类似2秒内减速到0
     //减速到终点的持续效果
     
     //减速效果类似减少30%
-    public bool IsPlayer = false;
+
 
     private List<SlowDownEffectData> SlowDownEffectDatas = new List<SlowDownEffectData>();
-    private PlayerCharacterController P;
-    private EnemyController E;
-    private void Awake()
+    
+
+    protected override void AwakeSpeed()
     {
-         P = gameObject.GetComponent<PlayerCharacterController>();
-         E = gameObject.GetComponent<EnemyController>();
+      
     }
 
-    void Update()
-    {
-        UpdateSpeed();
-    }
 
-    private void OnDestroy()
+    public override void AddData(EffectData d)
     {
-        try
+        base.AddData(d);
+        if (d is SlowDownEffectData e)
         {
-            if (IsPlayer)
-            {
-                P.MaxSpeedCoefficient=1;
-                P.MaxSpeedCoefficient2=1;
-            }
-            else
-            {
-                E.MaxSpeedCoefficient=1;
-                E.MaxSpeedCoefficient2=1;
-            }
-        }
-        catch (Exception e)
-        {
-            
+            e.Id=GetId();
+            e.Init();
+            SlowDownEffectDatas.Add(e);
+
         }
 
-    }
-
-    public void AddData(SlowDownEffectData e)
-    {
-        e.Id=GetId();
-        e.Init();
-        SlowDownEffectDatas.Add(e);
     }
     // Update is called once per frame
     
     DateTime _time=DateTime.Now;
-    void UpdateSpeed()
+    protected override void UpdateSpeed()
     {
         if ((DateTime.Now-_time).TotalSeconds>0.1f)
         {
@@ -214,7 +186,9 @@ public class SlowDownEffect : MonoBehaviour
                         }
                         else
                         {
+                            RemoveState(a.AbnormalState);
                             SlowDownEffectDatas.RemoveAt(i);
+             
                         }
                     }
                 }
@@ -235,4 +209,29 @@ public class SlowDownEffect : MonoBehaviour
             Destroy(this);
         }
     }
+
+
+
+    protected override void OnDestroySpeed()
+    {
+        try
+        {
+            if (IsPlayer)
+            {
+                P.MaxSpeedCoefficient=1;
+                P.MaxSpeedCoefficient2=1;
+            }
+            else
+            {
+                E.MaxSpeedCoefficient=1;
+                E.MaxSpeedCoefficient2=1;
+            }
+        }
+        catch (Exception e)
+        {
+            
+        }
+    }
+
+
 }

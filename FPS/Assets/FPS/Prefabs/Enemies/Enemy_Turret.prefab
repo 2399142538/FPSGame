@@ -418,7 +418,7 @@ MonoBehaviour:
   DeathVfx: {fileID: 8950624839484268180, guid: 45ce85b82008be84287f2c7e5bf07647,
     type: 3}
   ShieldBlue: {fileID: 2729281213621087428}
-  ShieldBadVfx: {fileID: 4260779743739990948, guid: c371cf93952e34e5896b439aecba620a,
+  ShieldBadVfx: {fileID: 4260779743739990948, guid: d4c00d82a949f449cb715cee9577eb3a,
     type: 3}
   DeathVfxSpawnPoint: {fileID: 7886326314632062837}
   LootPrefab: {fileID: 0}

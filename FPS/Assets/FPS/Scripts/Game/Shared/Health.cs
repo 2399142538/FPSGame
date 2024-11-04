@@ -163,7 +163,7 @@ namespace Unity.FPS.Game
                 else
                 {
                     
-                    int ShieldBefore2 = CurrentShield;
+                    int ShieldBefore2 = damage-CurrentShield;
                     CurrentShield = 0;
                     OnShieldDie?.Invoke();
                     BreakingTheShield = true;

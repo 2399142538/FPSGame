@@ -229,8 +229,6 @@ namespace Unity.FPS.Gameplay
         {
             // damage
             
-            
-            
             if (AreaOfDamage)
             {
                 // area damage
@@ -279,14 +277,14 @@ namespace Unity.FPS.Gameplay
                 }
             }
 
-            if (GunTypeType == GunType.PaoQiang)
-            {
-                AddEffect.instance.BreakingTheShieldEffect(collider.gameObject);
-            }
-            if (GunTypeType == GunType.EnemyT)
-            {
-                AddEffect.instance.BreakingTheShieldEffect(collider.gameObject);
-            }
+            //if (GunTypeType == GunType.PaoQiang)
+            //{
+            //    AddEffect.instance.BreakingTheShieldEffect(collider.gameObject,false);
+            //}
+            //if (GunTypeType == GunType.ChongFeng)
+            //{
+            //    AddEffect.instance.BreakingTheShieldEffect(collider.gameObject,true);
+            //}
             
 
             // impact vfx
