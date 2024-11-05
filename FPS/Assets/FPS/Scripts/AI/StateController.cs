@@ -10,7 +10,7 @@ public enum AbnormalState
     /// <summary>
     /// 异常状态
     /// </summary>
-    AbnormalState,
+    Deffect,
 
     /// <summary>
     /// 减速

@@ -44,7 +44,11 @@ namespace Unity.FPS.Gameplay
 
         public virtual void AddData(EffectData e)
         {
-            AddState(e.AbnormalState);
+            if (e!=null&&e.AbnormalState!=AbnormalState.Deffect)
+            {
+                AddState(e.AbnormalState);
+            }
+
         }
         
         public List<AbnormalState> ListAbnormalState = new List<AbnormalState>();

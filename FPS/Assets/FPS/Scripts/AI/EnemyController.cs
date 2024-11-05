@@ -96,8 +96,15 @@ namespace Unity.FPS.AI
 
         [Header("Movement")] [Header("落地时的最大移动速度系数减速（非短跑时）")]
         public float MaxSpeedCoefficient = 1;
-        [Header("Movement")] [Header("落地时的最大移动速度系数加速（非短跑时）")]
-        public float MaxSpeedCoefficient2 = 1;
+        [Header("落地时的最大移动速度系数加速（非短跑时）")]
+        public float MaxSpeedCoefficient2 = 1; 
+        
+        [Header("物体上边的点")]
+        public GameObject Up;
+        [Header("物体中间的点")]
+        public GameObject Middle;
+        [Header("物体下边的点")]
+        public GameObject Down;
         
         public UnityAction onAttack;
         public UnityAction onDetectedTarget;
