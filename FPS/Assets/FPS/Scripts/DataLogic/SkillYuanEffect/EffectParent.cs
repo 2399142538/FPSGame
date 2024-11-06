@@ -10,6 +10,7 @@ namespace Unity.FPS.Gameplay
     public class EffectData
     {
         public AbnormalState AbnormalState;
+
     }
 
 

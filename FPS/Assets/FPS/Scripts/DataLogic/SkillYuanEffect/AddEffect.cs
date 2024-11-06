@@ -147,16 +147,25 @@ namespace Unity.FPS.Gameplay
         {
             if (isKill)
             {
-                BreakingTheShieldEffect<SecKillEffect>(tr);
+                BreakingTheShieldEffect<SecKillEffect>(tr,null);
             }
             else
             {
-                BreakingTheShieldEffect<BreakingTheShieldEffect>(tr);
+                BreakingTheShieldEffect<BreakingTheShieldEffect>(tr,null);
             }
         }
         
+        /// <summary>
+        /// 施加感电效果
+        /// </summary>
+        /// <param name="tr"></param>
+        /// <param name="e"></param>
+        public void AddGanDianEffect(GameObject tr,GanDianEffectData e)
+        {
+            BreakingTheShieldEffect<GanDianEffect>(tr,e);
+        }
         
-        public void BreakingTheShieldEffect<T>(GameObject tr) where T : MonoBehaviour
+        public void BreakingTheShieldEffect<T>(GameObject tr,EffectData e) where T : EffectParent
         {
             bool isPlayer=tr.GetComponent<PlayerCharacterController>() != null ;
             T a;
@@ -166,7 +175,7 @@ namespace Unity.FPS.Gameplay
                 if (a == null)
                 {
                     a = tr.AddComponent<T>();
-             
+                    a.AddData(e);
                 }
             }
             else
@@ -178,6 +187,7 @@ namespace Unity.FPS.Gameplay
                     if (a == null)
                     {
                         a = b.gameObject.AddComponent<T>();
+                        a.AddData(e);
                     }
                 }
 

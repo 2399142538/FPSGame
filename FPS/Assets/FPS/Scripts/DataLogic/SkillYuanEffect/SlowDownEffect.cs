@@ -31,7 +31,18 @@ public class SlowDownEffectData  :EffectData
     /// </summary>
     public float AddSpeed;
     
-    
+    /// <summary>
+    /// 开始回调
+    /// </summary>
+    public Action Action1;
+    /// <summary>
+    /// 减速到最低回调
+    /// </summary>
+    public Action Action2;
+    /// <summary>
+    /// 减速到最低回调
+    /// </summary>结束回调
+    public Action Action3;
     /// <summary>
     /// 特殊标识符
     /// </summary>
@@ -41,6 +52,7 @@ public class SlowDownEffectData  :EffectData
     public float TimeEnableTemp; 
     public float TimeEndTemp;
     public float TempChaZhi;
+    public bool IsZhuanHua;
 
     public void Init()
     {
@@ -82,15 +94,16 @@ public class SlowDownEffect : EffectParent
         base.AddData(d);
         if (d is SlowDownEffectData e)
         {
-            e.Id=GetId();
+            if (e.Id==0)
+            {
+                e.Id=GetId();  
+            }
             e.Init();
             SlowDownEffectDatas.Add(e);
-
+            e.Action1?.Invoke();
         }
 
     }
-    // Update is called once per frame
-    
     DateTime _time=DateTime.Now;
     protected override void UpdateSpeed()
     {
@@ -127,8 +140,7 @@ public class SlowDownEffect : EffectParent
             for (int i = SlowDownEffectDatas.Count-1; i >=0; i--)
             {
                 SlowDownEffectData a = SlowDownEffectDatas[i];
-
-     
+                
                 if (a.TimeStartTemp>0)
                 {
                     a.TimeStartTemp -= 0.1f;
@@ -150,6 +162,12 @@ public class SlowDownEffect : EffectParent
                 }
                 else
                 {
+                    if (!a.IsZhuanHua)
+                    {
+                        a.IsZhuanHua = true;
+                        SlowDownEffectDatas[i] = a;
+                        SlowDownEffectDatas[i].Action2?.Invoke();
+                    }
                     if (a.TimeEnableTemp > 0 && (!a.IsSlowDown))
                     {
                         a.TimeEnableTemp -= 0.1f;
@@ -188,7 +206,7 @@ public class SlowDownEffect : EffectParent
                         {
                             RemoveState(a.AbnormalState);
                             SlowDownEffectDatas.RemoveAt(i);
-             
+                            SlowDownEffectDatas[i].Action3?.Invoke();
                         }
                     }
                 }
