@@ -49,6 +49,7 @@ public class UpdateUi : MonoBehaviour
     private Transform Gun1Content;
     private Transform Gun2Content;
     private Transform Gun3Content;
+    private Transform LightSContent;
     private Transform _updateUiRewardsItem;
 
     private void Start()
@@ -64,6 +65,8 @@ public class UpdateUi : MonoBehaviour
         Gun2Content = transform.GetChild("Gun2Content");
         Gun3Content = transform.GetChild("Gun3Content");
         
+        LightSContent = transform.GetChild("LightSContent");
+        
  
         Init(AllRewards.PlayersRewards,AllRewards.PlayersRewardsValue,PlayerContent,1);
         
@@ -72,6 +75,7 @@ public class UpdateUi : MonoBehaviour
         Init(AllRewards.Gun3Rewards,AllRewards.Gun3RewardsValue,Gun3Content,4);
         Init(AllRewards.Enemy1Rewards,AllRewards.Enemy1RewardsValue,Enemy1Content,5);
         Init(AllRewards.Enemy2Rewards,AllRewards.Enemy2RewardsValue,Enemy2Content,6);
+        Init(AllRewards.LightSRewards,AllRewards.LightSRewardsValue,Enemy2Content,7);
 
     }
     

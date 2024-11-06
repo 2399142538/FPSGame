@@ -166,7 +166,48 @@ namespace Unity.FPS.Game
                 /// <summary>
                 /// 小怪弹夹里子弹数量
                 /// </summary>
-                XGDPZDC
+                XGDPZDC,
+                /// <summary>
+                ///  [0]附加概率
+                /// </summary>
+    
+                LightSFJGL,
+
+                /// <summary>
+                ///  [7]是否附加闪电阵
+                /// </summary>
+                LightFZhen,
+
+                /// <summary>
+                ///  //[1]闪电伤害
+                /// </summary>
+                LightFATK,
+
+                /// <summary>
+                ///  //[2]闪电区域半径
+                /// </summary>
+                LightFBJ,
+                /// <summary>
+                /// [3]闪电链伤害
+                /// </summary>
+
+                LightFLATK,
+                /// <summary>
+                /// [4]闪电链个数
+                /// </summary>
+
+                LightFLC,
+                /// <summary>
+                /// [5]是否携带斩杀
+                /// </summary>
+
+                LightFCKill,
+
+                /// <summary>
+                /// [6]斩杀线
+                /// </summary>
+                LightFKillCount,
+                
 
         }
         public class AllRewards
@@ -194,31 +235,20 @@ namespace Unity.FPS.Game
                 public static List<float> Gun3RewardsValue = new List<float>(){0.5f,0.5f,0.5f};
                 public static List<bool> Gun3RewardsBuy = new List<bool>(){false,false,false};
                 
-                public static List<AttributeRewards> Enemy1Rewards = new List<AttributeRewards>()
-                {
-                     AttributeRewards.PTHP, AttributeRewards.PTHPSd,AttributeRewards.PTPSdRS,AttributeRewards.PTATK,AttributeRewards.PTDEYRS,AttributeRewards.PTDPZDC, 
-                };
-                public static List<float> Enemy1RewardsValue = new List<float>()
-                { 
-                        -0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f
-                };
-                public static List<bool> Enemy1RewardsBuy = new List<bool>()
-                {
-                        false,false,false,false,false,false,
-                };
+                public static List<AttributeRewards> Enemy1Rewards = new List<AttributeRewards>() { AttributeRewards.PTHP, AttributeRewards.PTHPSd,AttributeRewards.PTPSdRS,AttributeRewards.PTATK,AttributeRewards.PTDEYRS,AttributeRewards.PTDPZDC, };
+                public static List<float> Enemy1RewardsValue = new List<float>() { -0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f };
+                public static List<bool> Enemy1RewardsBuy = new List<bool>() { false,false,false,false,false,false, };
                 
-                public static List<AttributeRewards> Enemy2Rewards = new List<AttributeRewards>()
-                {
-                     AttributeRewards.XGDMS,AttributeRewards.XGHP, AttributeRewards.XGHPSd,AttributeRewards.XGPSdRS,AttributeRewards.XGATK,AttributeRewards.XGDEYRS,AttributeRewards.XGDPZDC
-                };
-                public static List<float> Enemy2RewardsValue = new List<float>()
-                { 
-                        -0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f
-                };
-                public static List<bool> Enemy2RewardsBuy = new List<bool>()
-                {
-                        false,false,false,false,false,false,false
-                };
+                public static List<AttributeRewards> Enemy2Rewards = new List<AttributeRewards>() {AttributeRewards.XGDMS,AttributeRewards.XGHP, AttributeRewards.XGHPSd,AttributeRewards.XGPSdRS,AttributeRewards.XGATK,AttributeRewards.XGDEYRS,AttributeRewards.XGDPZDC };
+                public static List<float> Enemy2RewardsValue = new List<float>() { -0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f };
+                public static List<bool> Enemy2RewardsBuy = new List<bool>() { false,false,false,false,false,false,false };
+
+                
+                public static List<AttributeRewards> LightSRewards = new List<AttributeRewards>() {AttributeRewards.LightSFJGL,AttributeRewards.LightFZhen,AttributeRewards.LightFATK, AttributeRewards.LightFBJ,AttributeRewards.LightFLATK,AttributeRewards.LightFLC,AttributeRewards.LightFCKill,AttributeRewards.LightFKillCount };
+                public static List<float> LightSRewardsValue = new List<float>() { 0.2f,1,0.5f,0.5f,0.5f,0.5f,1,0.5f };
+                public static List<bool> LightSRewardsBuy = new List<bool>() { false,false,false,false,false,false,false,false };
+                
+                
 
                 public static bool GetRewardsListIndex(int listIndex,int index)
                 {
@@ -230,6 +260,7 @@ namespace Unity.FPS.Game
                                 case 4: return Gun3RewardsBuy[index];break;
                                 case 5: return Enemy1RewardsBuy[index];break;
                                 case 6: return Enemy2RewardsBuy[index];break;
+                                case 7: return LightSRewardsBuy[index];break;
                                 default: return false;
                         }
                 }
@@ -243,6 +274,7 @@ namespace Unity.FPS.Game
                                 case 4: return Gun3RewardsBuy[index];break;
                                 case 5: return Enemy1RewardsBuy[index];break;
                                 case 6: return Enemy2RewardsBuy[index];break;
+                                case 7: return LightSRewardsBuy[index];break;
                                 default: return false;
                         }
                 }
@@ -257,6 +289,7 @@ namespace Unity.FPS.Game
                                 case 4:  Gun3RewardsBuy[index]   =true;break;
                                 case 5:  Enemy1RewardsBuy[index] =true;break;
                                 case 6:  Enemy2RewardsBuy[index] =true;break;
+                                case 7:  LightSRewardsBuy[index] =true;break;
                         }
                 }
                 
@@ -271,6 +304,7 @@ namespace Unity.FPS.Game
                                 case 4: GiveRewardsManager(Gun3Rewards[index],Gun3RewardsValue[index]);break;
                                 case 5: GiveRewardsManager(Enemy1Rewards[index],Enemy1RewardsValue[index]);break;
                                 case 6: GiveRewardsManager(Enemy2Rewards[index],Enemy2RewardsValue[index]);break;
+                                case 7: GiveRewardsManager(LightSRewards[index],LightSRewardsValue[index]);break;
                         }
                 }
                 public static Dictionary<AttributeRewards, string> RewardsDuiZhao = new Dictionary<AttributeRewards, string>()
@@ -306,6 +340,15 @@ namespace Unity.FPS.Game
                     [AttributeRewards.XGATK]="小怪攻击力",
                     [AttributeRewards.XGDEYRS]="小怪每秒装填弹药",
                     [AttributeRewards.XGDPZDC]="小怪弹夹里子弹数量",
+                    
+                    [AttributeRewards.LightSFJGL]="附加概率",
+                    [AttributeRewards.LightFATK]="闪电伤害",
+                    [AttributeRewards.LightFBJ]="闪电区域半径",
+                    [AttributeRewards.LightFLATK]="闪电链伤害",
+                    [AttributeRewards.LightFLC]="闪电链个数",
+                    [AttributeRewards.LightFCKill]="是否携带斩杀",
+                    [AttributeRewards.LightFKillCount]="斩杀线",
+                    [AttributeRewards.LightFZhen]="附带闪电阵",
             };
             //AttributeRewards.PDMS]    
             //AttributeRewards.PDHP]    
@@ -372,6 +415,15 @@ namespace Unity.FPS.Game
                                    case AttributeRewards.XGATK           :     g.Enemy2Data[4] += Count;          break;     
                                    case AttributeRewards.XGDEYRS         :     g.Enemy2Data[5] += Count;          break;     
                                    case AttributeRewards.XGDPZDC         :     g.Enemy2Data[6] += Count;          break;      
+                                   
+                                   case AttributeRewards.LightSFJGL      :     g.LightningBulletsData[0] += Count;     break;          
+                                   case AttributeRewards.LightFATK       :     g.LightningBulletsData[1] += Count;          break;     
+                                   case AttributeRewards.LightFBJ        :     g.LightningBulletsData[2] += Count;          break;     
+                                   case AttributeRewards.LightFLATK      :     g.LightningBulletsData[3] += Count;          break;     
+                                   case AttributeRewards.LightFLC        :     g.LightningBulletsData[4] += Count;          break;     
+                                   case AttributeRewards.LightFCKill     :     g.LightningBulletsData[5] += Count;          break;     
+                                   case AttributeRewards.LightFKillCount :     g.LightningBulletsData[6] += Count;          break;      
+                                   case AttributeRewards.LightFZhen :     g.LightningBulletsData[7] += Count;          break;      
                     }
             }
     }

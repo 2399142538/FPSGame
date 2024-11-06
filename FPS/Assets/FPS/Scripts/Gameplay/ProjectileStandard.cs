@@ -258,6 +258,9 @@ namespace Unity.FPS.Gameplay
                         AddEffect.instance.SlowDownEffect(collider.gameObject,AddEffect.Slow_50);
                              
                     }
+
+                    AddEffect.instance.AddLightningBulletsEffect(collider.gameObject);
+                    
                     break;
                 case GunType.EnemyT:
                 case GunType.EnemyX:

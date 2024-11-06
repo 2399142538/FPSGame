@@ -44,6 +44,8 @@ public class GanDianEffect : EffectParent
             AddEffect.instance.BreakingTheShieldEffect(gameObject,true);
         }
         AddEffect.instance.SlowDownEffect(gameObject,new SlowDownEffectData() {Id = -1,IsSlowDown=false,TimeStart=0.1f, TimeEnable=0.1f,TimeEnd=0.5f,AddSpeed=-0.9f,AbnormalState = AbnormalState.SlowDown});
+        GameObject a = Instantiate(CommonEffect.instance.附带闪电粒子,E.Middle.transform);
+        Destroy(a,0.7f);
     }
 
     protected override void AwakeSpeed()

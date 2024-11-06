@@ -64,8 +64,9 @@ namespace Unity.FPS.Game
       
       [Header("攻速")] public float PlayerATS = 1;
 
+      #region 玩家数据
 
-
+      
       /// <summary>
       /// 玩家默认数据
       /// </summary>
@@ -93,7 +94,6 @@ namespace Unity.FPS.Game
          0, //[6]本枪枪口是否具有硬直
          0, //[7]本身是否免疫硬直
       };
-
       /// <summary>
       /// [0]默认移速DMS
       /// [1]默认血量DHP
@@ -114,9 +114,12 @@ namespace Unity.FPS.Game
          return PlayerDefData[index] + PlayerData[index] * PlayerDefData[index];
       }
 
+      #endregion
 
-      //枪支属性
+      #region 枪
+
       
+      //枪支属性
       //突击枪
       public List<float> Gun1DefData = new List<float>
       {
@@ -167,16 +170,58 @@ namespace Unity.FPS.Game
          0, //[2]每秒重新装填的弹药量DEYRS
          0, //[3]弹夹里子弹数量
       };
-         
-      
-      
-      [Header("攻击力1")] public float PlayerDefATK1 = 1;
-      [Header("攻击力2")] public float PlayerDefATK2 = 1;
-      [Header("攻击力3")] public float PlayerDefATK3 = 1;
 
-      //3种枪攻击力
 
-      
+      #endregion
+
+      #region 雷击子弹
+
+      /// <summary>
+      /// 雷击子弹
+      /// </summary>
+      public List<float> LightningBulletsDefData = new List<float>
+      {
+         0.1f,// [0]附加概率
+         30,//[1]闪电伤害
+         5, //[2]闪电区域半径
+         10, //[3]闪电链伤害
+         4, //[4]闪电链个数
+         0, //[5]是否携带斩杀
+         12, //[6]斩杀线
+         0, //[7]是否有闪电阵
+      };
+      /// <summary>
+      /// 雷击子弹系数
+      /// </summary>
+      public List<float> LightningBulletsData = new List<float>
+      {
+         0,// [0]附加概率
+         0,//[1]闪电伤害
+         0, //[2]闪电区域半径
+         0, //[3]闪电链伤害
+         0, //[4]闪电链个数
+         0, //[5]是否携带斩杀
+         0, //[6]斩杀线
+         0, //[7]是否有闪电阵
+      };
+      public float LightningBullets(int index)
+      {
+         if (index==0)
+         {
+            return LightningBulletsDefData[index] + LightningBulletsData[index];
+         }
+
+         if (index==5||index==7)
+         {
+            return LightningBulletsDefData[index] + LightningBulletsData[index];
+         }
+         return LightningBulletsDefData[index] + LightningBulletsData[index] * LightningBulletsDefData[index];
+      }
+
+      #endregion
+
+      #region 炮塔
+
       /// <summary>
       /// Enemy1默认数据 炮塔
       /// </summary>
@@ -204,7 +249,6 @@ namespace Unity.FPS.Game
          0, //[5]每秒重新装填的弹药量DEYRS
          0, //[6]弹夹里子弹数量
       };
-
       /// <summary>
       /// [0]默认移速DMS
       /// [1]默认血量DHP
@@ -214,7 +258,12 @@ namespace Unity.FPS.Game
       /// <param name="index"></param>
       /// <returns></returns>
       public float GetEnemy1MaxData(int index) => Enemy1DefData[index] + Enemy1Data[index] * Enemy1DefData[index];
-      
+
+
+      #endregion
+
+      #region 小怪
+
       /// <summary>
       /// Enemy2 小怪默认数据
       /// </summary>
@@ -252,6 +301,10 @@ namespace Unity.FPS.Game
       /// <param name="index"></param>
       /// <returns></returns>
       public float GetEnemy2MaxData(int index) => Enemy2DefData[index] + Enemy2Data[index] * Enemy2DefData[index];
+
+
+      #endregion
+
 
 
       public float GetATK(GunType type)

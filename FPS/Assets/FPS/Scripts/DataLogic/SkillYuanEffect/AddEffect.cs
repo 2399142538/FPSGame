@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.FPS.AI;
 using Unity.FPS.Game;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Unity.FPS.Gameplay
 {
@@ -164,6 +165,22 @@ namespace Unity.FPS.Gameplay
         {
             BreakingTheShieldEffect<GanDianEffect>(tr,e);
         }
+            
+        /// <summary>
+        /// 施加感电效果
+        /// </summary>
+        /// <param name="tr"></param>
+        /// <param name="e"></param>
+        public void AddLightningBulletsEffect(GameObject tr)
+        {
+            int c= Random.Range(1, 100);
+            if (c<GameData.instance.LightningBullets(0)*100)
+            {
+                BreakingTheShieldEffect<LightningBulletsEffect>(tr,null);
+            }
+        }
+        
+        
         
         public void BreakingTheShieldEffect<T>(GameObject tr,EffectData e) where T : EffectParent
         {
