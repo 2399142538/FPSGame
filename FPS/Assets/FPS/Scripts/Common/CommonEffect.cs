@@ -10,6 +10,7 @@ public class CommonEffect : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        DontDestroyOnLoad(this);
     }
 
     public GameObject 引雷标记;

@@ -50,7 +50,8 @@ MonoBehaviour:
     type: 3}
   "\u95EA\u7535\u94FE\u7C92\u5B50": {fileID: 2557249784752544309, guid: b60deb125689846caa2dc4fcb37d490d,
     type: 3}
-  "\u96F7": {fileID: 134366, guid: a70f6d370571e44e3a60c2dc89dc869e, type: 3}
+  "\u95EA\u7535\u7C92\u5B50": {fileID: 134366, guid: a70f6d370571e44e3a60c2dc89dc869e,
+    type: 3}
   "\u96F7\u9635\u7C92\u5B50": {fileID: 173060, guid: d02101df497c74a43a80cd5097338022,
     type: 3}
   "\u9644\u5E26\u95EA\u7535\u7C92\u5B50": {fileID: 2557249784752544309, guid: 21be613fa28ab4d46b5fb468baff3aef,

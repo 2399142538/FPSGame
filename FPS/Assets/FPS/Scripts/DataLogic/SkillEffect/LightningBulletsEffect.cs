@@ -10,6 +10,7 @@ class LightningZhenEffect : MonoBehaviour
 {
     public float r;
     public float LeiZhenMax;
+    public float KillCount;
     public bool IsKill;
     public void Init()
     {
@@ -36,11 +37,16 @@ class LightningZhenEffect : MonoBehaviour
                     else
                     {
                         //收到
-                        AddEffect.instance.AddGanDianEffect(gameObject,new GanDianEffectData(){IsKill = IsKill});
+                        AddEffect.instance.AddGanDianEffect(health.gameObject,new GanDianEffectData(){IsKill = IsKill,KillCount=KillCount});
                     }
                 }
             }
         }
+    }
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red * 0.5f;;
+        Gizmos.DrawSphere(transform.position, 5);
     }
 }
 
@@ -58,9 +64,9 @@ class LightningZhenEffect : MonoBehaviour
         {
             GameObject a = Instantiate(CommonEffect.instance.引雷标记,E.Down.transform);
             Destroy(a,1f);
-            await Task.Delay(1);
+            await Task.Delay(1000);
             GameObject b = Instantiate(CommonEffect.instance.闪电粒子,E.Middle.transform);
-            Destroy(b,1f);
+            Destroy(b,1000f);
             new HpDownEffectData()
             {
                 IsAdd = false, isUseSheild = true, TimeDuration = 5, TimeInterval = 2f, AddHp = 20, Id = 222,
@@ -70,15 +76,20 @@ class LightningZhenEffect : MonoBehaviour
             float r= GameData.instance.LightningBullets(2);        //半球
             int d=(int) GameData.instance.LightningBullets(1);        //半球
             InflictDamageInArea(d, transform.position, r);
-            if ( GameData.instance.LightningBullets(7)>0)
+            //if ( GameData.instance.LightningBullets(7)>0)
             {
                 GameObject c = Instantiate(CommonEffect.instance.雷阵粒子,E.Down.transform.position,Quaternion.identity);
                 Destroy(c,5f);
                 LightningZhenEffect l= c.AddComponent<LightningZhenEffect>();
-                l.IsKill=  GameData.instance.LightningBullets(6)>0;     
+                float s= GameData.instance.LightningBullets(2);
+                l.transform.localScale = new Vector3(s,s,s);
+                l.KillCount = 80;// GameData.instance.LightningBullets(6);
+                l.IsKill = true;//  GameData.instance.LightningBullets(5)>0;     
                 l.r=  GameData.instance.LightningBullets(2);     
                 l.Init();
             }
+            await Task.Delay(5000);
+            Destroy(this);
         }
 
         public void InflictDamageInArea(int damage, Vector3 center, float r)

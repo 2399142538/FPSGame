@@ -147,17 +147,17 @@ public class SlowDownEffect : EffectParent
                     if (speed>a.SpeedTemp&& !a.IsSlowDown)
                     {
                         speed += a.AddSpeed / (a.TimeStart / 0.1f);
-                        SlowDownEffectDatas[i] = a;
+                        
                     }
                     else if(addSpeed<a.SpeedTemp&& a.IsSlowDown)
                     {
                         addSpeed += a.AddSpeed / (a.TimeStart / 0.1f);
-                        SlowDownEffectDatas[i] = a;
+                        
                     }
                     else
                     {
                         a.TempChaZhi +=  a.AddSpeed /(a.TimeStart / 0.1f);
-                        SlowDownEffectDatas[i] = a;
+                        
                     }
                 }
                 else
@@ -165,7 +165,7 @@ public class SlowDownEffect : EffectParent
                     if (!a.IsZhuanHua)
                     {
                         a.IsZhuanHua = true;
-                        SlowDownEffectDatas[i] = a;
+                        
                         SlowDownEffectDatas[i].Action2?.Invoke();
                     }
                     if (a.TimeEnableTemp > 0 && (!a.IsSlowDown))
@@ -177,7 +177,7 @@ public class SlowDownEffect : EffectParent
 
                         }
 
-                        SlowDownEffectDatas[i] = a;
+                        
                     }
                     else if (a.TimeEnableTemp > 0 && (a.IsSlowDown) )
                     {
@@ -186,7 +186,7 @@ public class SlowDownEffect : EffectParent
                         {
                             addSpeed = a.SpeedTemp;
                         }
-                        SlowDownEffectDatas[i] = a;
+                        
                     }
                     else
                     {
@@ -200,13 +200,14 @@ public class SlowDownEffect : EffectParent
                             {
                                 addSpeed -= a.AddSpeed / (a.TimeEnd / 0.1f);
                             }
-                            SlowDownEffectDatas[i] = a;
+                            
                         }
                         else
                         {
                             RemoveState(a.AbnormalState);
-                            SlowDownEffectDatas.RemoveAt(i);
                             SlowDownEffectDatas[i].Action3?.Invoke();
+                            SlowDownEffectDatas.RemoveAt(i);
+     
                         }
                     }
                 }

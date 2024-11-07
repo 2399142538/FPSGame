@@ -173,7 +173,7 @@ namespace Unity.FPS.Gameplay
         /// <param name="e"></param>
         public void AddLightningBulletsEffect(GameObject tr)
         {
-            int c= Random.Range(1, 100);
+            int c= Random.Range(1, 10);
             if (c<GameData.instance.LightningBullets(0)*100)
             {
                 BreakingTheShieldEffect<LightningBulletsEffect>(tr,null);
